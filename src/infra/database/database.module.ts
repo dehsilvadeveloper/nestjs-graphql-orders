@@ -11,6 +11,6 @@ import { OrderPrismaRepository } from './prisma/repositories/order.prisma.reposi
       useClass: OrderPrismaRepository,
     },
   ],
-  exports: [OrderRepository],
+  exports: [PrismaService, OrderRepository],
 })
 export class DatabaseModule {}

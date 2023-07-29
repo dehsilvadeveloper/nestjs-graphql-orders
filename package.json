@@ -35,10 +35,9 @@
     "prisma:pull": "npx prisma db pull",
     "prisma:seed": "npx prisma db seed"
   },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
   "dependencies": {
+    "@apollo/server": "^4.9.0",
+    "@nestjs/apollo": "^12.0.7",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^9.0.0",
