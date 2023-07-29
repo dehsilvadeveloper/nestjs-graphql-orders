@@ -8,6 +8,8 @@ This is a NestJS v9.x application to visualize/query orders. It could be user, f
 
 The project was created to learn development with NestJS.
 
+**THIS IS A WORK IN PROGRESS**
+
 ## Objectives
 
 * NestJs learning
