@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DB_HOST")
+}
+
+// MODELS
+
+model Order {
+  id            Int         @id @default(autoincrement())
+  total         Decimal
+  freightValue  Decimal
+  discount      Decimal
+  origin        String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  paidAt        DateTime?
+  deletedAt     DateTime?
+  paymentType   PaymentType @relation(fields: [paymentTypeId], references: [id])
+  paymentTypeId Int
+  orderStatus   OrderStatus @relation(fields: [orderStatusId], references: [id])
+  orderStatusId Int
+  store         Store       @relation(fields: [storeId], references: [id])
+  storeId       Int
+
+  @@index([paymentTypeId])
+  @@index([orderStatusId])
+  @@index([storeId])
+  @@map(name: "order")
+}
+
+model PaymentType {
+  id     Int     @id @default(autoincrement())
+  name   String
+  orders Order[]
+
+  @@map(name: "payment_type")
+}
+
+model OrderStatus {
+  id     Int     @id @default(autoincrement())
+  name   String
+  orders Order[]
+
+  @@map(name: "order_status")
+}
+
+model Store {
+  id           Int     @id @default(autoincrement())
+  name         String
+  ecommerceUrl String?
+  orders       Order[]
+
+  @@map(name: "store")
+}

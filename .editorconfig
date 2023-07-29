@@ -1,0 +1,40 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[**.less]
+indent_style = tab
+indent_size = 2
+
+[**.{css,scss}]
+indent_style = tab
+indent_size = 2
+
+[**.php]
+indent_style = space
+indent_size = 4
+
+[**.html]
+indent_style = tab
+indent_size = 2
+
+[*.{js,jsx,ts,tsx,vue}]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 100
+
+[**.yml]
+indent_style = space
+indent_size = 2
+insert_final_newline = false
+
+[**.md]
+indent_size = 4
