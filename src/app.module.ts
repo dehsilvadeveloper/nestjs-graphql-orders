@@ -3,7 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from '@infra/database/database.module';
+import { DatabaseModule } from '@database/database.module';
 import { OrderModule } from '@modules/order/order.module';
 
 @Module({

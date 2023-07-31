@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { appConfig } from './infra/config/app.config';
-import { apiConfig } from './infra/config/api.config';
-import { corsConfig } from './infra/config/cors.config';
+import { appConfig } from './config/app.config';
+import { apiConfig } from './config/api.config';
+import { corsConfig } from './config/cors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
