@@ -30,10 +30,13 @@
     "prisma:migrate:dev": "npx prisma migrate dev",
     "prisma:migrate:dev:create": "npx prisma migrate dev --create-only",
     "prisma:migrate:deploy": "npx prisma migrate deploy",
-    "prisma:migrate:reset": "npx prisma migrate reset",
+    "prisma:migrate:reset": "npx prisma migrate reset --skip-seed",
     "prisma:migrate:status": "npx prisma migrate status",
     "prisma:pull": "npx prisma db pull",
     "prisma:seed": "npx prisma db seed"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seeders/database.seeder.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.9.0",
@@ -58,7 +61,7 @@
     "@prisma/client": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "29.5.0",
-    "@types/node": "^18.15.11",
+    "@types/node": "^18.17.1",
     "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",

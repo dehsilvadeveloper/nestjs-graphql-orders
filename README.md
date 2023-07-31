@@ -39,3 +39,7 @@ The project was created to learn development with NestJS.
 * [Prisma](./docs/prisma.md)
 * [GraphQL](./docs/graphQL.md)
 * [Available NPM Scripts](./docs/available_npm_scripts.md)
+
+## Known issues
+
+* Seeders are inserting data with dates with the wrong timezone (should be "America/Sao_Paulo")

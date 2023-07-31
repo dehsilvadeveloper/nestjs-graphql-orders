@@ -18,13 +18,20 @@ async function bootstrap() {
   // Validation pipeline
   app.useGlobalPipes(new ValidationPipe());
 
+  // Enable shutdown hook explicitly
+  app.enableShutdownHooks();
+
   // Cors
   if (corsConfig.enabled) {
     app.enableCors();
   }
 
   // Application port
-  await app.listen(appConfig.port);
+  await app.listen(appConfig.port, () => {
+    console.info(
+      `Server ready at: ${appConfig.url}:${appConfig.port}/${apiConfig.globalPrefix}/v${apiConfig.defaultVersion}`,
+    );
+  });
 }
 
 bootstrap();
