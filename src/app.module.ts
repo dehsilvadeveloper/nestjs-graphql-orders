@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { graphqlConfig } from './config/graphql.config';
 import { DatabaseModule } from '@database/database.module';
 import { OrderModule } from '@modules/order/order.module';
 
@@ -12,7 +13,7 @@ import { OrderModule } from '@modules/order/order.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: true,
-      autoSchemaFile: 'graphql/schema.graphql',
+      autoSchemaFile: `${graphqlConfig.schemaOutputDir}${graphqlConfig.schemaOutputFile}`,
     }),
     OrderModule,
   ],

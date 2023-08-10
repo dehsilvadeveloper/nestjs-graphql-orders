@@ -6,6 +6,7 @@ import { apiConfig } from './config/api.config';
 import { corsConfig } from './config/cors.config';
 
 async function bootstrap() {
+  // Create applications instance
   const app = await NestFactory.create(AppModule);
 
   // API prefix and versioning
