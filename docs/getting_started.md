@@ -18,6 +18,14 @@ This script will install the dependencies.
 
 **Note:** Every time that you update the **schema.prisma** is required to re-generate the Prisma Client JS.
 
+#### Creating database structure
+
+To create the database structure, you have to use the following script:
+
+```shell
+npm run prisma:migrate:dev
+```
+
 #### Seeding data
 
 To seed data to your database, you have to use the following script:
