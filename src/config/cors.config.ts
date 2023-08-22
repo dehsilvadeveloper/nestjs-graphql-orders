@@ -1,5 +1,5 @@
-import { toBoolean } from '@shared/helpers/toBoolean';
+import { CorsConfigProps } from './interfaces/config.interface';
 
-export const corsConfig = {
-  enabled: process.env.CORS_ENABLED ? toBoolean(process.env.CORS_ENABLED) : false,
-};
+export const corsConfig = (): CorsConfigProps => ({
+  enabled: process.env.CORS_ENABLED === 'true',
+});

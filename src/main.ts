@@ -1,20 +1,49 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { appConfig } from './config/app.config';
-import { apiConfig } from './config/api.config';
-import { corsConfig } from './config/cors.config';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
-  // Create applications instance
+  // Create application instance
   const app = await NestFactory.create(AppModule);
 
-  // API prefix and versioning
-  app.setGlobalPrefix(apiConfig.globalPrefix);
-  app.enableVersioning({
-    type: VersioningType.URI,
-    defaultVersion: apiConfig.defaultVersion,
-  });
+  // Preparing config service
+  const configService = app.get<ConfigService>(ConfigService);
+
+  // Getting app config data
+  const appUrl: string = configService.getOrThrow<string>('app.http.url');
+  const appPort: number = configService.getOrThrow<number>('app.http.port');
+  const appGlobalPrefix: string =
+    configService.getOrThrow<string>('app.globalPrefix');
+  const appVersioningEnable: boolean = configService.getOrThrow<boolean>(
+    'app.versioning.enable',
+  );
+  const appVersionPrefix: string = configService.getOrThrow<string>(
+    'app.versioning.prefix',
+  );
+  const appVersion: string = configService.getOrThrow<string>(
+    'app.versioning.version',
+  );
+
+  // Getting cors config data
+  const corsEnabled: boolean =
+    configService.getOrThrow<boolean>('cors.enabled');
+
+  // Defining full base url
+  let appFullBaseUrl = `${appUrl}:${appPort}/${appGlobalPrefix}`;
+
+  // API global prefix
+  app.setGlobalPrefix(appGlobalPrefix);
+
+  // API versioning
+  if (appVersioningEnable) {
+    app.enableVersioning({
+      type: VersioningType.URI,
+      defaultVersion: appVersion,
+    });
+
+    appFullBaseUrl = `${appFullBaseUrl}/${appVersionPrefix}${appVersion}`;
+  }
 
   // Validation pipeline
   app.useGlobalPipes(new ValidationPipe());
@@ -23,15 +52,13 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   // Cors
-  if (corsConfig.enabled) {
+  if (corsEnabled) {
     app.enableCors();
   }
 
   // Application port
-  await app.listen(appConfig.port, () => {
-    console.info(
-      `Server ready at: ${appConfig.url}:${appConfig.port}/${apiConfig.globalPrefix}/v${apiConfig.defaultVersion}`,
-    );
+  await app.listen(appPort, () => {
+    console.info(`Server ready at: ${appFullBaseUrl}`);
   });
 }
 
