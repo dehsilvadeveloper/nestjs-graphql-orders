@@ -13,23 +13,15 @@ async function bootstrap() {
   // Getting app config data
   const appUrl: string = configService.getOrThrow<string>('app.http.url');
   const appPort: number = configService.getOrThrow<number>('app.http.port');
-  const appGlobalPrefix: string =
-    configService.getOrThrow<string>('app.globalPrefix');
-  const appVersioningEnable: boolean = configService.getOrThrow<boolean>(
-    'app.versioning.enable',
-  );
-  const appVersionPrefix: string = configService.getOrThrow<string>(
-    'app.versioning.prefix',
-  );
-  const appVersion: string = configService.getOrThrow<string>(
-    'app.versioning.version',
-  );
+  const appGlobalPrefix: string = configService.getOrThrow<string>('app.globalPrefix');
+  const appVersioningEnable: boolean = configService.getOrThrow<boolean>('app.versioning.enable');
+  const appVersionPrefix: string = configService.getOrThrow<string>('app.versioning.prefix');
+  const appVersion: string = configService.getOrThrow<string>('app.versioning.version');
 
   // Getting cors config data
-  const corsEnabled: boolean =
-    configService.getOrThrow<boolean>('cors.enabled');
+  const corsEnabled: boolean = configService.getOrThrow<boolean>('cors.enabled');
 
-  // Defining full base url
+  // Defining app full base url
   let appFullBaseUrl = `${appUrl}:${appPort}/${appGlobalPrefix}`;
 
   // API global prefix
@@ -39,9 +31,11 @@ async function bootstrap() {
   if (appVersioningEnable) {
     app.enableVersioning({
       type: VersioningType.URI,
+      prefix: appVersionPrefix,
       defaultVersion: appVersion,
     });
 
+    // Complementing app full base url
     appFullBaseUrl = `${appFullBaseUrl}/${appVersionPrefix}${appVersion}`;
   }
 

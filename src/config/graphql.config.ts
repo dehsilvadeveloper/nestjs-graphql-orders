@@ -5,5 +5,3 @@ export const graphqlConfig = (): GraphqlConfigProps => ({
   schemaOutputDir: process.env.GRAPHQL_SCHEMA_OUTPUT_DIR || 'graphql/',
   schemaOutputFile: process.env.GRAPHQL_SCHEMA_OUTPUT_FILE || 'schema.graphql',
 });
-
-// https://github.com/andrechristikan/ack-nestjs-boilerplate/tree/main
