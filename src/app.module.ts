@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { join } from 'path';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { config } from './config/config';
@@ -19,9 +20,11 @@ import { OrderModule } from '@modules/order/order.module';
       driver: ApolloDriver,
       useFactory: async (configService: ConfigService) => ({
         playground: configService.getOrThrow<boolean>('graphql.playgroundEnabled'),
-        autoSchemaFile:
+        autoSchemaFile: join(
+          process.cwd(),
           `${configService.getOrThrow<string>('graphql.schemaOutputDir')}` +
-          `${configService.getOrThrow<string>('graphql.schemaOutputFile')}`,
+            `${configService.getOrThrow<string>('graphql.schemaOutputFile')}`,
+        ),
         debug: configService.getOrThrow<boolean>('graphql.debugEnabled'),
       }),
       inject: [ConfigService],
