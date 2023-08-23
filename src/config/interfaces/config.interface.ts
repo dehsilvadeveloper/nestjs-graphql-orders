@@ -36,4 +36,5 @@ export interface GraphqlConfigProps {
   playgroundEnabled: boolean;
   schemaOutputDir: string;
   schemaOutputFile: string;
+  debugEnabled: boolean;
 }

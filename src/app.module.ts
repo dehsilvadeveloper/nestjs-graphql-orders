@@ -18,12 +18,11 @@ import { OrderModule } from '@modules/order/order.module';
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       useFactory: async (configService: ConfigService) => ({
-        playground: configService.getOrThrow<boolean>(
-          'graphql.playgroundEnabled',
-        ),
+        playground: configService.getOrThrow<boolean>('graphql.playgroundEnabled'),
         autoSchemaFile:
           `${configService.getOrThrow<string>('graphql.schemaOutputDir')}` +
           `${configService.getOrThrow<string>('graphql.schemaOutputFile')}`,
+        debug: configService.getOrThrow<boolean>('graphql.debugEnabled'),
       }),
       inject: [ConfigService],
     }),
