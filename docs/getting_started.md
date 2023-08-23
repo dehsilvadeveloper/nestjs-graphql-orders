@@ -41,7 +41,7 @@ If you want to start the application on a development environment, use the follo
 This script will start the application server. After that, the application is ready to use on the following url:
 
 ```shell
-http://localhost:3000/api/v1
+http://localhost:3333/api/v1
 ```
 
 **Note:** The port, the global prefix and the default version used on the application can be changed using the following environment variables:
