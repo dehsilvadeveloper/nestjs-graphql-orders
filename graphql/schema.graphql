@@ -63,20 +63,8 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Book {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type Query {
-  book(id: Int!): Book!
-}
-
 type Mutation {
   createOrder(data: CreateOrderDto!): OrderEntity!
-  createBook(createBookInput: CreateBookInput!): Book!
-  updateBook(updateBookInput: UpdateBookInput!): Book!
-  removeBook(id: Int!): Book!
 }
 
 input CreateOrderDto {
@@ -87,15 +75,4 @@ input CreateOrderDto {
   paymentTypeId: Float!
   orderStatusId: Float!
   storeId: Float!
-}
-
-input CreateBookInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateBookInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }

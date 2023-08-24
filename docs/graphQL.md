@@ -8,7 +8,7 @@
 
 The application serves the GraphQL Playground on the following url:
 
-`http://localhost:3000/graphql`
+`http://localhost:3333/graphql`
 
 You can use the examples available on the topic **Examples of GraphQL queries** on the Playground to test the api.
 
