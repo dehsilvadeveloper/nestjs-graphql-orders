@@ -2,6 +2,100 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type OrderStatusEntity {
+  id: Int!
+
+  """Name of the order status."""
+  name: String!
+}
+
+type PaymentTypeEntity {
+  id: Int!
+
+  """Name of the payment type."""
+  name: String!
+}
+
+type StoreEntity {
+  id: Int!
+
+  """Name of the store."""
+  name: String!
+
+  """Url of the e-commerce of the store."""
+  ecommerceUrl: String
+}
+
+type OrderEntity {
+  """Identifier of the record"""
+  id: ID!
+
+  """Date of creation of the record."""
+  createdAt: DateTime!
+
+  """Date of the last update of the record."""
+  updatedAt: DateTime!
+
+  """Total value of order."""
+  total: Float!
+
+  """Freight value for the order."""
+  freightValue: Float!
+
+  """Discount value for the order."""
+  discount: Float!
+
+  """Origin of the order. Example: web."""
+  origin: String!
+
+  """Date when the order was paid."""
+  paidAt: DateTime
+
+  """Date of removal of the order."""
+  deletedAt: DateTime
+  paymentType: PaymentTypeEntity!
+  orderStatus: OrderStatusEntity!
+  store: StoreEntity!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Book {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
-  listOrders: String!
+  book(id: Int!): Book!
+}
+
+type Mutation {
+  createOrder(data: CreateOrderDto!): OrderEntity!
+  createBook(createBookInput: CreateBookInput!): Book!
+  updateBook(updateBookInput: UpdateBookInput!): Book!
+  removeBook(id: Int!): Book!
+}
+
+input CreateOrderDto {
+  total: Float!
+  freightValue: Float!
+  discount: Float!
+  origin: String!
+  paymentTypeId: Float!
+  orderStatusId: Float!
+  storeId: Float!
+}
+
+input CreateBookInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateBookInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

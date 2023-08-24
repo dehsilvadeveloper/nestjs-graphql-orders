@@ -1,45 +1,35 @@
-import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { OrderOriginEnum } from '@shared/enums/order-origin.enum';
+import { Field, Float, ObjectType } from '@nestjs/graphql';
+import { BaseEntity } from '@shared/entities/base.entity';
 import { OrderStatusEntity } from './order-status.entity';
 import { PaymentTypeEntity } from './payment-type.entity';
-
-registerEnumType(OrderOriginEnum, {
-  name: 'OrderOriginEnum',
-  description: 'Origin of the order. Example: web.'
-});
+import { StoreEntity } from '@modules/store/entities/store.entity';
 
 @ObjectType()
-export class OrderEntity {
-  @Field(type => Int)
-  id: number;
-
-  @Field(type => Int, { description: 'Total value of order.' })
+export class OrderEntity extends BaseEntity {
+  @Field(() => Float, { description: 'Total value of order.' })
   total: number;
 
-  @Field(type => Int, { description: 'Freight value for the order.' })
+  @Field(() => Float, { description: 'Freight value for the order.' })
   freightValue: number;
 
-  @Field(type => Int, { description: 'Discount value for the order.' })
+  @Field(() => Float, { description: 'Discount value for the order.' })
   discount: number;
 
-  @Field(type => OrderOriginEnum)
-  origin: OrderOriginEnum;
+  @Field(() => String, { description: 'Origin of the order. Example: web.' })
+  origin: String;
 
-  @Field(type => Date, { description: 'Date of creation of the order.' })
-  createdAt: Date;
+  @Field(() => Date, { nullable: true, description: 'Date when the order was paid.' })
+  paidAt: Date | null;
 
-  @Field(type => Date, { description: 'Date of the last update of the order.' })
-  updatedAt: Date;
+  @Field(() => Date, { nullable: true, description: 'Date of removal of the order.' })
+  deletedAt: Date | null;
 
-  @Field(type => Date, { nullable: true, description: 'Date when the order was paid.' })
-  paidAt: Date;
-
-  @Field(type => Date, { nullable: true, description: 'Date of removal of the order.' })
-  deletedAt: Date;
-
-  @Field(type => PaymentTypeEntity)
+  @Field(() => PaymentTypeEntity)
   paymentType: PaymentTypeEntity;
 
-  @Field(type => OrderStatusEntity)
+  @Field(() => OrderStatusEntity)
   orderStatus: OrderStatusEntity;
+
+  @Field(() => StoreEntity)
+  store: StoreEntity;
 }
