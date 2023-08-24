@@ -7,6 +7,11 @@ import { CreateOrderDto } from '../dtos/create-order.dto';
 export class OrderResolver {
   constructor(private readonly orderService: OrderService) {}
 
+  @Query(() => String)
+  sayHello(): string {
+    return 'Hello World!';
+  }
+
   @Mutation(() => OrderEntity, { name: 'createOrder' })
   createOrder(@Args('data') data: CreateOrderDto) {
     return this.orderService.create(data);
