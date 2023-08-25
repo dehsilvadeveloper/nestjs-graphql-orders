@@ -73,10 +73,12 @@ scalar DateTime
 type Query {
   sayHello: String!
   getOrderById(id: Float!): OrderEntity
+  getStoreById(id: Float!): StoreEntity
 }
 
 type Mutation {
   createOrder(data: CreateOrderDto!): OrderEntity!
+  createStore(data: CreateStoreDto!): StoreEntity!
 }
 
 input CreateOrderDto {
@@ -87,4 +89,9 @@ input CreateOrderDto {
   paymentTypeId: Float!
   orderStatusId: Float!
   storeId: Float!
+}
+
+input CreateStoreDto {
+  name: String!
+  ecommerceUrl: String!
 }

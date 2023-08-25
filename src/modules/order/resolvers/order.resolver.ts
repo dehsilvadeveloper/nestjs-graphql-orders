@@ -4,7 +4,6 @@ import { OrderEntity } from '../entities/order.entity';
 import { OrderService } from '../services/order.service';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 
-
 @UseInterceptors(ClassSerializerInterceptor)
 @Resolver(() => OrderEntity)
 export class OrderResolver {

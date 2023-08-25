@@ -8,6 +8,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from '@database/database.module';
 import { OrderModule } from '@modules/order/order.module';
+import { StoreModule } from '@modules/store/store.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { OrderModule } from '@modules/order/order.module';
       inject: [ConfigService],
     }),
     OrderModule,
+    StoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],
