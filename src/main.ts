@@ -40,7 +40,7 @@ async function bootstrap() {
   }
 
   // Validation pipeline
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(new ValidationPipe());
 
   // Enable shutdown hook explicitly
   app.enableShutdownHooks();

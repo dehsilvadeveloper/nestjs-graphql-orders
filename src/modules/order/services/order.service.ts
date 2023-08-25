@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@database/prisma/prisma.service';
+import { plainToClass } from 'class-transformer';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { UpdateOrderDto } from '../dtos/update-order.dto';
 import { OrderEntity } from '../entities/order.entity';
@@ -10,9 +11,7 @@ export class OrderService {
 
   async create(createOrderDto: CreateOrderDto): Promise<OrderEntity> {
     const orderCreated = await this.prismaService.order.create({
-      data: {
-        ...createOrderDto,
-      },
+      data: createOrderDto,
       include: {
         paymentType: true,
         orderStatus: true,
@@ -20,9 +19,7 @@ export class OrderService {
       },
     });
 
-    console.debug(orderCreated);
-
-    return orderCreated;
+    return plainToClass(OrderEntity, orderCreated);
   }
 
   findAll() {

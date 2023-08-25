@@ -1,8 +1,10 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { OrderEntity } from '../entities/order.entity';
 import { OrderService } from '../services/order.service';
 import { CreateOrderDto } from '../dtos/create-order.dto';
+import { ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Resolver(() => OrderEntity)
 export class OrderResolver {
   constructor(private readonly orderService: OrderService) {}
@@ -13,7 +15,7 @@ export class OrderResolver {
   }
 
   @Mutation(() => OrderEntity, { name: 'createOrder' })
-  createOrder(@Args('data') data: CreateOrderDto) {
+  async createOrder(@Args('data') data: CreateOrderDto): Promise<OrderEntity> {
     return this.orderService.create(data);
   }
 }

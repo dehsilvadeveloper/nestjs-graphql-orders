@@ -1,4 +1,6 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
+import { Transform } from 'class-transformer';
+import { format } from 'date-fns';
 import { BaseEntity } from '@shared/entities/base.entity';
 import { OrderStatusEntity } from './order-status.entity';
 import { PaymentTypeEntity } from './payment-type.entity';
@@ -18,10 +20,34 @@ export class OrderEntity extends BaseEntity {
   @Field(() => String, { description: 'Origin of the order. Example: web.' })
   origin: String;
 
-  @Field(() => Date, { nullable: true, description: 'Date when the order was paid.' })
+  @Field(() => String, { nullable: true, description: 'Date when the order was paid.' })
+  @Transform(
+    value => {
+      const item = value.value;
+
+      if (!item) {
+        return null;
+      }
+
+      return format(item, 'dd/MM/yyyy HH:mm:ss');
+    },
+    { toPlainOnly: true },
+  )
   paidAt: Date | null;
 
   @Field(() => Date, { nullable: true, description: 'Date of removal of the order.' })
+  @Transform(
+    value => {
+      const item = value.value;
+
+      if (!item) {
+        return null;
+      }
+
+      return format(item, 'dd/MM/yyyy HH:mm:ss');
+    },
+    { toPlainOnly: true },
+  )
   deletedAt: Date | null;
 
   @Field(() => PaymentTypeEntity)
@@ -32,4 +58,9 @@ export class OrderEntity extends BaseEntity {
 
   @Field(() => StoreEntity)
   store: StoreEntity;
+
+  constructor(partial: Partial<OrderEntity>) {
+    super();
+    Object.assign(this, partial);
+  }
 }

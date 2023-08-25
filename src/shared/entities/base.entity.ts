@@ -1,5 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { IsDateString, IsNumber } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { format } from 'date-fns';
 
 @ObjectType()
 export class BaseEntity {
@@ -7,11 +9,13 @@ export class BaseEntity {
   @IsNumber()
   id: number;
 
-  @Field(() => Date, { description: 'Date of creation of the record.' })
+  @Field(() => String, { description: 'Date of creation of the record.' })
   @IsDateString()
+  @Transform((value) => format(value.value, 'dd/MM/yyyy HH:mm:ss'), { toPlainOnly: true })
   createdAt: Date;
 
-  @Field(() => Date, { description: 'Date of the last update of the record.' })
+  @Field(() => String, { description: 'Date of the last update of the record.' })
   @IsDateString()
+  @Transform((value) => format(value.value, 'dd/MM/yyyy HH:mm:ss'), { toPlainOnly: true })
   updatedAt: Date;
 }
