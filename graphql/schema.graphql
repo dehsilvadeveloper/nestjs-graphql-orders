@@ -72,6 +72,7 @@ scalar DateTime
 
 type Query {
   sayHello: String!
+  getOrderById(id: Float!): OrderEntity
 }
 
 type Mutation {

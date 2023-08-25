@@ -30,8 +30,19 @@ export class OrderService {
     return `This action removes a #${id} order`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findById(id: number): Promise<OrderEntity | null> {
+    const order = await this.prismaService.order.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        paymentType: true,
+        orderStatus: true,
+        store: true,
+      },
+    });
+
+    return plainToClass(OrderEntity, order);
   }
 
   findAll() {
