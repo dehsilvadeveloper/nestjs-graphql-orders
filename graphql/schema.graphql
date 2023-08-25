@@ -17,7 +17,14 @@ type PaymentTypeEntity {
 }
 
 type StoreEntity {
-  id: Int!
+  """Identifier of the record"""
+  id: ID!
+
+  """Date of creation of the record."""
+  createdAt: String!
+
+  """Date of the last update of the record."""
+  updatedAt: String!
 
   """Name of the store."""
   name: String!

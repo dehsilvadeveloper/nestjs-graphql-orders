@@ -1,10 +1,8 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { BaseEntity } from '@shared/entities/base.entity';
 
 @ObjectType()
-export class StoreEntity {
-  @Field(() => Int)
-  id: number;
-
+export class StoreEntity extends BaseEntity {
   @Field(() => String, { description: 'Name of the store.' })
   name: string;
 
