@@ -22,8 +22,15 @@ export class OrderService {
     return plainToClass(OrderEntity, orderCreated);
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    const updatedOrder = await this.prismaService.order.update({
+      where: {
+        id: id,
+      },
+      data: updateOrderDto,
+    });
+
+    return plainToClass(OrderEntity, updatedOrder);
   }
 
   cancel(id: number) {

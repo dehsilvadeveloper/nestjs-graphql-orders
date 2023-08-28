@@ -58,6 +58,9 @@ type OrderEntity {
   """Date when the order was paid."""
   paidAt: String
 
+  """Date when the order was canceled."""
+  canceledAt: String
+
   """Date of removal of the order."""
   deletedAt: DateTime
 
@@ -84,6 +87,7 @@ type Query {
 
 type Mutation {
   createOrder(data: CreateOrderDto!): OrderEntity!
+  updateOrder(id: Float!, data: UpdateOrderDto!): OrderEntity!
   createStore(data: CreateStoreDto!): StoreEntity!
 }
 
@@ -95,6 +99,16 @@ input CreateOrderDto {
   paymentTypeId: Float!
   orderStatusId: Float!
   storeId: Float!
+}
+
+input UpdateOrderDto {
+  total: Float
+  freightValue: Float
+  discount: Float
+  origin: String
+  paymentTypeId: Float
+  storeId: Float
+  id: Int!
 }
 
 input CreateStoreDto {

@@ -35,6 +35,21 @@ export class OrderEntity extends BaseEntity {
   )
   paidAt: Date | null;
 
+  @Field(() => String, { nullable: true, description: 'Date when the order was canceled.' })
+  @Transform(
+    value => {
+      const item = value.value;
+
+      if (!item) {
+        return null;
+      }
+
+      return format(item, 'dd/MM/yyyy HH:mm:ss');
+    },
+    { toPlainOnly: true },
+  )
+  canceledAt: Date | null;
+
   @Field(() => Date, { nullable: true, description: 'Date of removal of the order.' })
   @Transform(
     value => {
