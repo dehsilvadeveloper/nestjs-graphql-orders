@@ -27,7 +27,7 @@ import { StoreModule } from '@modules/store/store.module';
             `${configService.getOrThrow<string>('graphql.schemaOutputFile')}`,
         ),
         debug: configService.getOrThrow<boolean>('graphql.debugEnabled'),
-        sortSchema: false
+        sortSchema: configService.getOrThrow<boolean>('graphql.sortSchemaEnabled')
       }),
       inject: [ConfigService],
     }),

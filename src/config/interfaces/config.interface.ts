@@ -37,4 +37,5 @@ export interface GraphqlConfigProps {
   schemaOutputDir: string;
   schemaOutputFile: string;
   debugEnabled: boolean;
+  sortSchemaEnabled: boolean;
 }
