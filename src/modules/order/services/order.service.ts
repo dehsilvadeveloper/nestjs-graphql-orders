@@ -26,6 +26,10 @@ export class OrderService {
     return `This action updates a #${id} order`;
   }
 
+  cancel(id: number) {
+    return `This action cancel a #${id} order`;
+  }
+
   remove(id: number) {
     return `This action removes a #${id} order`;
   }

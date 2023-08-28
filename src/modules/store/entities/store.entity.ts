@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseEntity } from '@shared/entities/base.entity';
+import { BaseEntity } from '@common/entities/base.entity';
 
 @ObjectType()
 export class StoreEntity extends BaseEntity {

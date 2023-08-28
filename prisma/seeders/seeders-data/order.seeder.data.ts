@@ -1,6 +1,6 @@
-import { OrderOriginEnum } from '../../../src/shared/enums/order-origin.enum';
-import { OrderStatusEnum } from '../../../src/shared/enums/order-status.enum';
-import { PaymentTypeEnum } from '../../../src/shared/enums/payment-type.enum';
+import { OrderOriginEnum } from '../../../src/common/enums/order-origin.enum';
+import { OrderStatusEnum } from '../../../src/common/enums/order-status.enum';
+import { PaymentTypeEnum } from '../../../src/common/enums/payment-type.enum';
 
 export const orderSeederData = [
   {

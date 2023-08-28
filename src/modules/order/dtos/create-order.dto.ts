@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IsNotEmpty, IsEnum, IsNumber } from 'class-validator';
-import { OrderOriginEnum } from '@shared/enums/order-origin.enum';
+import { OrderOriginEnum } from '@common/enums/order-origin.enum';
 
 @InputType()
 export class CreateOrderDto {

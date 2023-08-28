@@ -1,7 +1,7 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { Transform } from 'class-transformer';
 import { format } from 'date-fns';
-import { BaseEntity } from '@shared/entities/base.entity';
+import { BaseEntity } from '@common/entities/base.entity';
 import { OrderStatusEntity } from './order-status.entity';
 import { PaymentTypeEntity } from './payment-type.entity';
 import { StoreEntity } from '@modules/store/entities/store.entity';

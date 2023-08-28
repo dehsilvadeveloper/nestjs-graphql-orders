@@ -1,4 +1,4 @@
-import { PaymentTypeEnum } from '../../../src/shared/enums/payment-type.enum';
+import { PaymentTypeEnum } from '../../../src/common/enums/payment-type.enum';
 
 export const paymentTypeSeederData = [
   { id: PaymentTypeEnum.boleto, name: 'boleto' },

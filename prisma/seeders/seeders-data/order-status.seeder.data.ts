@@ -1,4 +1,4 @@
-import { OrderStatusEnum } from '../../../src/shared/enums/order-status.enum';
+import { OrderStatusEnum } from '../../../src/common/enums/order-status.enum';
 
 export const orderStatusSeederData = [
   { id: OrderStatusEnum.pending, name: 'pending' },

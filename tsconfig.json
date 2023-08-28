@@ -23,8 +23,8 @@
     "paths": {
       "@config/*": ["./src/config/*"],
       "@database/*": ["./src/database/*"],
+      "@common/*": ["./src/common/*"],
       "@modules/*": ["./src/modules/*"],
-      "@shared/*": ["./src/shared/*"],
       "@test/*": ["./test/*"]
     }
   }
