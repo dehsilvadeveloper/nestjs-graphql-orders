@@ -50,13 +50,13 @@ export class OrderEntity extends BaseEntity {
   )
   deletedAt: Date | null;
 
-  @Field(() => PaymentTypeEntity)
+  @Field(() => PaymentTypeEntity, { description: 'Payment type of the order.' })
   paymentType: PaymentTypeEntity;
 
-  @Field(() => OrderStatusEntity)
+  @Field(() => OrderStatusEntity, { description: 'Status of the order.' })
   orderStatus: OrderStatusEntity;
 
-  @Field(() => StoreEntity)
+  @Field(() => StoreEntity, { description: 'Store where the order was generated.' })
   store: StoreEntity;
 
   constructor(partial: Partial<OrderEntity>) {

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { join } from 'path';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
 import { config } from './config/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -27,6 +27,7 @@ import { StoreModule } from '@modules/store/store.module';
             `${configService.getOrThrow<string>('graphql.schemaOutputFile')}`,
         ),
         debug: configService.getOrThrow<boolean>('graphql.debugEnabled'),
+        sortSchema: false
       }),
       inject: [ConfigService],
     }),

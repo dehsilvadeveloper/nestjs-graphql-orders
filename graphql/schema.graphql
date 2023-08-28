@@ -60,8 +60,14 @@ type OrderEntity {
 
   """Date of removal of the order."""
   deletedAt: DateTime
+
+  """Payment type of the order."""
   paymentType: PaymentTypeEntity!
+
+  """Status of the order."""
   orderStatus: OrderStatusEntity!
+
+  """Store where the order was generated."""
   store: StoreEntity!
 }
 

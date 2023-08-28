@@ -33,7 +33,7 @@ export class OrderService {
   async findById(id: number): Promise<OrderEntity | null> {
     const order = await this.prismaService.order.findFirst({
       where: {
-        id,
+        id: id,
       },
       include: {
         paymentType: true,

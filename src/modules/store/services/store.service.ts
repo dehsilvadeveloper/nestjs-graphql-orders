@@ -19,7 +19,7 @@ export class StoreService {
   async findById(id: number): Promise<StoreEntity | null> {
     const store = await this.prismaService.store.findFirst({
       where: {
-        id,
+        id: id,
       },
     });
 
