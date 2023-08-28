@@ -6,7 +6,9 @@
 
 For start, clone the repository to your local/development environment. After that, run the following script:
 
-`npm install`
+```shell
+npm install
+```
 
 This script will install the dependencies.
 
@@ -14,9 +16,11 @@ This script will install the dependencies.
 
 **Prisma Client JS** is a type-safe database client auto-generated based on the data model. You have to generate the Prisma Client JS using the following script:
 
-`npm run prisma:generate`
+```shell
+npm run prisma:generate
+```
 
-**Note:** Every time that you update the **schema.prisma** is required to re-generate the Prisma Client JS.
+**Note:** Every time that you update the **schema.prisma** file is required to re-generate the Prisma Client JS.
 
 #### Creating database structure
 
@@ -30,18 +34,28 @@ npm run prisma:migrate:dev
 
 To seed data to your database, you have to use the following script:
 
-`npm run prisma:seed`
+```shell
+npm run prisma:seed
+```
 
 ### Starting the application
 
 If you want to start the application on a development environment, use the following script:
 
-`npm run start:dev`
+```shell
+npm run start:dev
+```
 
 This script will start the application server. After that, the application is ready to use on the following url:
 
 ```shell
 http://localhost:3333/api/v1
+```
+
+If the **GraphQL Playground** is enabled, you can access it using the following url:
+
+```shell
+http://localhost:3333/graphql
 ```
 
 **Note:** The port, the global prefix and the default version used on the application can be changed using the following environment variables:
@@ -59,3 +73,21 @@ If you want to stop the application, use the following key combination on the te
 `ctrl + c`
 
 This will stop the application server.
+
+### Using Prisma Studio
+
+The **Prisma Studio** is a simple tabular interface where you can quickly have a look at the data of your local database and check if your app is working correctly. It also allow you to interact with your data with full CRUD functionality.
+
+If you want to use the Studio, run the following script:
+
+```shell
+npm run prisma:studio
+```
+
+This will load the Studio based on the database that you have provided and open its interface on the browser so that you can interact with the data.
+
+If you want to stop the Studio, use the following key combination on the terminal:
+
+`ctrl + c`
+
+This will stop the Prisma Studio.

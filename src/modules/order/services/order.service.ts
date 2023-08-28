@@ -30,8 +30,12 @@ export class OrderService {
     return `This action cancel a #${id} order`;
   }
 
+  refund(id: number) {
+    return `This action refunds a #${id} order`;
+  }
+
   remove(id: number) {
-    return `This action removes a #${id} order`;
+    return `This action removes a #${id} order. Its only possible to soft delete pending orders`;
   }
 
   async findById(id: number): Promise<OrderEntity | null> {
