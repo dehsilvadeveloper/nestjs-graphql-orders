@@ -89,6 +89,7 @@ type Mutation {
   createOrder(data: CreateOrderDto!): OrderEntity!
   updateOrder(id: Float!, data: UpdateOrderDto!): OrderEntity!
   createStore(data: CreateStoreDto!): StoreEntity!
+  updateStore(id: Float!, data: UpdateStoreDto!): StoreEntity!
 }
 
 input CreateOrderDto {
@@ -113,4 +114,9 @@ input UpdateOrderDto {
 input CreateStoreDto {
   name: String!
   ecommerceUrl: String!
+}
+
+input UpdateStoreDto {
+  name: String
+  ecommerceUrl: String
 }

@@ -22,7 +22,7 @@ Here are provided examples of GraphQL queries so that you can test the applicati
 
 [Insomnia](https://insomnia.rest/download)
 
-#### Order
+#### Entity Order
 
 ##### Create
 
@@ -156,16 +156,96 @@ mutation {
 }
 ```
 
-#### Store
+##### Get by ID
+
+Query
+
+```graphql
+query {
+  getOrderById(id: 222) {
+    id
+    total
+    freightValue
+    origin
+    discount
+    createdAt
+    updatedAt
+    paidAt
+    canceledAt
+    deletedAt
+    paymentType {
+      name
+    }
+    orderStatus {
+      name
+    }
+    store {
+      name
+      ecommerceUrl
+      createdAt,
+      updatedAt
+    }
+  }
+}
+```
+
+#### Entity Store
 
 ##### Create
 
 Query
 
-Soon.
+```graphql
+mutation {
+  createStore(
+    data: {
+      name: "Store Triple A"
+      ecommerceUrl: "http://store.triplea.test.com"
+    }
+  ) {
+    id
+    name
+    ecommerceUrl
+    createdAt
+    updatedAt
+  }
+}
+```
 
 ##### Update
 
 Query
 
-Soon.
+```graphql
+mutation {
+  updateStore(
+    id: 2
+    data: {
+      name: "Store Triple A"
+      ecommerceUrl: "http://store.triplea.test.com"
+    }
+  ) {
+    id
+    name
+    ecommerceUrl
+    createdAt
+    updatedAt
+  }
+}
+```
+
+##### Get by ID
+
+Query
+
+```graphql
+query {
+  getStoreById(id: 2) {
+    id
+    name,
+    ecommerceUrl,
+    createdAt,
+    updatedAt
+  }
+}
+```
