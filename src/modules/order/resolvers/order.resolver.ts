@@ -4,8 +4,10 @@ import { OrderEntity } from '../entities/order.entity';
 import { OrderService } from '../services/order.service';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { UpdateOrderDto } from '../dtos/update-order.dto';
+import { OrderUpdateWithoutDataErrorInterceptor } from '../interceptors/order-update-without-data-error.interceptor';
+import { OrderNotFoundErrorInterceptor } from '../interceptors/order-not-found-error.interceptor';
 
-@UseInterceptors(ClassSerializerInterceptor)
+@UseInterceptors(ClassSerializerInterceptor, OrderUpdateWithoutDataErrorInterceptor, OrderNotFoundErrorInterceptor)
 @Resolver(() => OrderEntity)
 export class OrderResolver {
   constructor(private readonly orderService: OrderService) {}
@@ -30,7 +32,7 @@ export class OrderResolver {
     const order = await this.orderService.findById(id);
 
     if (!order) {
-      throw new NotFoundException('Order not found.');
+      throw new NotFoundException(`Order #${id} was not found.`);
     }
 
     return order;

@@ -21,7 +21,7 @@ module.exports = {
     '@typescript-eslint/no-implicity-any': 'off',
     '@typescript-eslint/no-object-literal-type-assertion': 'off',
     '@typescript-eslint/no-unused-vars': [
-      'warn',
+      'error',
       { varsIgnorePattern: '^_', argsIgnorePattern: '^_', ignoreRestSiblings: true },
     ],
     'prettier/prettier': ['error', { endOfLine: 'auto' }, { usePrettierrc: true }],

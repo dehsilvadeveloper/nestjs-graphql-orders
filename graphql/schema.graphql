@@ -108,7 +108,6 @@ input UpdateOrderDto {
   origin: String
   paymentTypeId: Float
   storeId: Float
-  id: Int!
 }
 
 input CreateStoreDto {

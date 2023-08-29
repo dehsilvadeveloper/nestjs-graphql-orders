@@ -118,4 +118,54 @@ Query variables
 
 Query
 
+```graphql
+mutation {
+  updateOrder(
+    id: 2
+    data: {
+      total: 101.55
+      freightValue: 5.30
+      origin: "mobile"
+      discount: 0
+      paymentTypeId: 1
+      orderStatusId: 1
+      storeId: 1
+    }
+  ) {
+    id
+    total
+    freightValue
+    origin
+    discount
+    createdAt
+    updatedAt
+    paidAt
+    deletedAt
+    paymentType {
+      name
+    }
+    orderStatus {
+      name
+    }
+    store {
+      name
+      ecommerceUrl
+      createdAt
+    }
+  }
+}
+```
+
+#### Store
+
+##### Create
+
+Query
+
+Soon.
+
+##### Update
+
+Query
+
 Soon.
