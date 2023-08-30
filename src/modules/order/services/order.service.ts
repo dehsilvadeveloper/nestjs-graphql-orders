@@ -36,6 +36,16 @@ export class OrderService {
         throw new OrderUpdateWithoutDataError(id);
       }
 
+      const order = await this.prismaService.order.findFirst({
+        where: {
+          id: id,
+        },
+      });
+
+      if (order?.deletedAt instanceof Date) {
+        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was removed`);
+      }
+
       const updatedOrder = await this.prismaService.order.update({
         where: {
           id: id,
