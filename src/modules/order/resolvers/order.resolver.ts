@@ -5,16 +5,20 @@ import { OrderService } from '../services/order.service';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { UpdateOrderDto } from '../dtos/update-order.dto';
 import { OrderCannotBeCanceledErrorInterceptor } from '../interceptors/order-cannot-be-canceled-error.interceptor';
+import { OrderCannotBeRefundedErrorInterceptor } from '../interceptors/order-cannot-be-refunded-error.interceptor';
 import { OrderIsCanceledErrorInterceptor } from '../interceptors/order-is-canceled-error.interceptor';
 import { OrderIsDeletedErrorInterceptor } from '../interceptors/order-is-deleted-error.interceptor';
+import { OrderIsRefundedErrorInterceptor } from '../interceptors/order-is-refunded-error.interceptor';
 import { OrderUpdateWithoutDataErrorInterceptor } from '../interceptors/order-update-without-data-error.interceptor';
 import { OrderNotFoundErrorInterceptor } from '../interceptors/order-not-found-error.interceptor';
 
 @UseInterceptors(
   ClassSerializerInterceptor,
   OrderCannotBeCanceledErrorInterceptor,
+  OrderCannotBeRefundedErrorInterceptor,
   OrderIsCanceledErrorInterceptor,
   OrderIsDeletedErrorInterceptor,
+  OrderIsRefundedErrorInterceptor,
   OrderUpdateWithoutDataErrorInterceptor,
   OrderNotFoundErrorInterceptor,
 )

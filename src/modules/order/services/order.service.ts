@@ -12,6 +12,8 @@ import { OrderNotFoundError } from '../errors/order-not-found.error';
 import { OrderIsDeletedError } from '../errors/order-is-deleted.error';
 import { OrderIsCanceledError } from '../errors/order-is-canceled.error';
 import { OrderCannotBeCanceledError } from '../errors/order-cannot-be-canceled.error';
+import { OrderIsRefundedError } from '../errors/order-is-refunded.error';
+import { OrderCannotBeRefundedError } from '../errors/order-cannot-be-refunded.error';
 
 @Injectable()
 export class OrderService {
@@ -121,6 +123,24 @@ export class OrderService {
 
   async refund(id: number) {
     try {
+      const order = await this.prismaService.order.findFirst({
+        where: {
+          id: id,
+        },
+      });
+
+      if (order?.deletedAt instanceof Date) {
+        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was removed`);
+      }
+
+      if (order?.orderStatusId == OrderStatusEnum.refunded) {
+        throw new OrderIsRefundedError(`Cannot proceed. The order #${id} is already refunded`);
+      }
+
+      if (order?.orderStatusId != OrderStatusEnum.paid) {
+        throw new OrderCannotBeRefundedError(`Cannot proceed. Only paid orders can be refunded`);
+      }
+
       const refundedOrder = await this.prismaService.order.update({
         where: {
           id: id,
