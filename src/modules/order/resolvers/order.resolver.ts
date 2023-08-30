@@ -4,10 +4,20 @@ import { OrderEntity } from '../entities/order.entity';
 import { OrderService } from '../services/order.service';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { UpdateOrderDto } from '../dtos/update-order.dto';
+import { OrderCannotBeCanceledErrorInterceptor } from '../interceptors/order-cannot-be-canceled-error.interceptor';
+import { OrderIsCanceledErrorInterceptor } from '../interceptors/order-is-canceled-error.interceptor';
+import { OrderIsDeletedErrorInterceptor } from '../interceptors/order-is-deleted-error.interceptor';
 import { OrderUpdateWithoutDataErrorInterceptor } from '../interceptors/order-update-without-data-error.interceptor';
 import { OrderNotFoundErrorInterceptor } from '../interceptors/order-not-found-error.interceptor';
 
-@UseInterceptors(ClassSerializerInterceptor, OrderUpdateWithoutDataErrorInterceptor, OrderNotFoundErrorInterceptor)
+@UseInterceptors(
+  ClassSerializerInterceptor,
+  OrderCannotBeCanceledErrorInterceptor,
+  OrderIsCanceledErrorInterceptor,
+  OrderIsDeletedErrorInterceptor,
+  OrderUpdateWithoutDataErrorInterceptor,
+  OrderNotFoundErrorInterceptor,
+)
 @Resolver(() => OrderEntity)
 export class OrderResolver {
   constructor(private readonly orderService: OrderService) {}

@@ -9,6 +9,9 @@ import { UpdateOrderDto } from '../dtos/update-order.dto';
 import { OrderEntity } from '../entities/order.entity';
 import { OrderUpdateWithoutDataError } from '../errors/order-update-without-data.error';
 import { OrderNotFoundError } from '../errors/order-not-found.error';
+import { OrderIsDeletedError } from '../errors/order-is-deleted.error';
+import { OrderIsCanceledError } from '../errors/order-is-canceled.error';
+import { OrderCannotBeCanceledError } from '../errors/order-cannot-be-canceled.error';
 
 @Injectable()
 export class OrderService {
@@ -60,13 +63,31 @@ export class OrderService {
 
   async cancel(id: number): Promise<OrderEntity> {
     try {
+      const order = await this.prismaService.order.findFirst({
+        where: {
+          id: id,
+        },
+      });
+
+      if (order?.deletedAt instanceof Date) {
+        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was removed`);
+      }
+
+      if (order?.orderStatusId == OrderStatusEnum.canceled) {
+        throw new OrderIsCanceledError(`Cannot proceed. The order #${id} is already canceled`);
+      }
+
+      if (order?.orderStatusId != OrderStatusEnum.pending) {
+        throw new OrderCannotBeCanceledError(`Cannot proceed. Only pending orders can be canceled`);
+      }
+
       const canceledOrder = await this.prismaService.order.update({
         where: {
           id: id,
         },
         data: {
           canceledAt: new Date(),
-          orderStatusId: OrderStatusEnum.canceled
+          orderStatusId: OrderStatusEnum.canceled,
         },
         include: {
           paymentType: true,
@@ -96,7 +117,7 @@ export class OrderService {
         },
         data: {
           refundedAt: new Date(),
-          orderStatusId: OrderStatusEnum.refunded
+          orderStatusId: OrderStatusEnum.refunded,
         },
         include: {
           paymentType: true,

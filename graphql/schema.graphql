@@ -61,6 +61,9 @@ type OrderEntity {
   """Date when the order was canceled."""
   canceledAt: String
 
+  """Date when the order was refunded."""
+  refundedAt: String
+
   """Date of removal of the order."""
   deletedAt: DateTime
 
@@ -88,6 +91,8 @@ type Query {
 type Mutation {
   createOrder(data: CreateOrderDto!): OrderEntity!
   updateOrder(id: Float!, data: UpdateOrderDto!): OrderEntity!
+  cancelOrder(id: Float!): OrderEntity!
+  refundOrder(id: Float!): OrderEntity!
   createStore(data: CreateStoreDto!): StoreEntity!
   updateStore(id: Float!, data: UpdateStoreDto!): StoreEntity!
 }
