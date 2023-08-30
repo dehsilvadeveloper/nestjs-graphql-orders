@@ -4,10 +4,16 @@ import { StoreEntity } from '../entities/store.entity';
 import { StoreService } from '../services/store.service';
 import { CreateStoreDto } from '../dtos/create-store.dto';
 import { UpdateStoreDto } from '../dtos/update-store.dto';
+import { StoreIsDeletedErrorInterceptor } from '../interceptors/store-is-deleted-error.interceptor';
 import { StoreUpdateWithoutDataErrorInterceptor } from '../interceptors/store-update-without-data-error.interceptor';
 import { StoreNotFoundErrorInterceptor } from '../interceptors/store-not-found-error.interceptor';
 
-@UseInterceptors(ClassSerializerInterceptor, StoreUpdateWithoutDataErrorInterceptor, StoreNotFoundErrorInterceptor)
+@UseInterceptors(
+  ClassSerializerInterceptor,
+  StoreIsDeletedErrorInterceptor,
+  StoreUpdateWithoutDataErrorInterceptor,
+  StoreNotFoundErrorInterceptor,
+)
 @Resolver(() => StoreEntity)
 export class StoreResolver {
   constructor(private readonly storeService: StoreService) {}

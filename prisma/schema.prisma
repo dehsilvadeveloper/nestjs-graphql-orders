@@ -54,11 +54,12 @@ model OrderStatus {
 }
 
 model Store {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   name         String
   ecommerceUrl String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
   orders       Order[]
 
   @@map(name: "store")

@@ -8,6 +8,7 @@ import { UpdateStoreDto } from '../dtos/update-store.dto';
 import { StoreEntity } from '../entities/store.entity';
 import { StoreUpdateWithoutDataError } from '../errors/store-update-without-data.error';
 import { StoreNotFoundError } from '../errors/store-not-found.error';
+import { StoreIsDeletedError } from '../errors/store-is-deleted.error';
 
 @Injectable()
 export class StoreService {
@@ -25,6 +26,16 @@ export class StoreService {
     try {
       if (Object.keys(updateStoreDto).length === 0) {
         throw new StoreUpdateWithoutDataError(id);
+      }
+
+      const store = await this.prismaService.store.findFirst({
+        where: {
+          id: id,
+        },
+      });
+
+      if (store?.deletedAt instanceof Date) {
+        throw new StoreIsDeletedError(`Cannot proceed. The store #${id} was removed`);
       }
 
       const updatedStore = await this.prismaService.store.update({
