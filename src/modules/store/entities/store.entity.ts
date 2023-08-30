@@ -11,7 +11,7 @@ export class StoreEntity extends BaseEntity {
   @Field(() => String, { nullable: true, description: 'Url of the e-commerce of the store.' })
   ecommerceUrl: string | null;
 
-  @Field(() => Date, { nullable: true, description: 'Date of removal of the order.' })
+  @Field(() => String, { nullable: true, description: 'Date of removal of the store.' })
   @Transform(
     value => {
       const item = value.value;

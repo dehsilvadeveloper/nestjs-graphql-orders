@@ -259,7 +259,7 @@ query {
     store {
       name
       ecommerceUrl
-      createdAt,
+      createdAt
       updatedAt
     }
   }
@@ -285,6 +285,7 @@ mutation {
     ecommerceUrl
     createdAt
     updatedAt
+    deletedAt
   }
 }
 ```
@@ -298,8 +299,8 @@ mutation {
   updateStore(
     id: 2
     data: {
-      name: "Store Triple A"
-      ecommerceUrl: "http://store.triplea.test.com"
+      name: "Store Triple B"
+      ecommerceUrl: "http://store.tripleb.test.com"
     }
   ) {
     id
@@ -307,6 +308,7 @@ mutation {
     ecommerceUrl
     createdAt
     updatedAt
+    deletedAt
   }
 }
 ```
@@ -319,10 +321,11 @@ Query
 query {
   getStoreById(id: 2) {
     id
-    name,
-    ecommerceUrl,
-    createdAt,
+    name
+    ecommerceUrl
+    createdAt
     updatedAt
+    deletedAt
   }
 }
 ```

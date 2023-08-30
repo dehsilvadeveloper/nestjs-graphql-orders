@@ -33,7 +33,7 @@ export class StoreResolver {
     const store = await this.storeService.findById(id);
 
     if (!store) {
-      throw new NotFoundException('Store not found.');
+      throw new NotFoundException(`Store #${id} was not found.`);
     }
 
     return store;

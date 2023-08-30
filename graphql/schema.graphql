@@ -31,6 +31,9 @@ type StoreEntity {
 
   """Url of the e-commerce of the store."""
   ecommerceUrl: String
+
+  """Date of removal of the store."""
+  deletedAt: String
 }
 
 type OrderEntity {
@@ -65,7 +68,7 @@ type OrderEntity {
   refundedAt: String
 
   """Date of removal of the order."""
-  deletedAt: DateTime
+  deletedAt: String
 
   """Payment type of the order."""
   paymentType: PaymentTypeEntity!
@@ -76,11 +79,6 @@ type OrderEntity {
   """Store where the order was generated."""
   store: StoreEntity!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type Query {
   sayHello: String!

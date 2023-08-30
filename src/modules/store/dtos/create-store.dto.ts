@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsNotEmpty, IsEmpty, IsString, MinLength, MaxLength, IsUrl } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength, MaxLength, IsUrl } from 'class-validator';
 
 @InputType()
 export class CreateStoreDto {
@@ -10,8 +10,8 @@ export class CreateStoreDto {
   @Field()
   name: string;
 
-  @IsEmpty()
-  @IsUrl({ require_tld: false })
+  @IsNotEmpty()
+  @IsUrl()
   @MaxLength(80)
   @Field()
   ecommerceUrl?: string;
