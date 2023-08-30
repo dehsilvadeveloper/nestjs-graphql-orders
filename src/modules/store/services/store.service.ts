@@ -21,7 +21,7 @@ export class StoreService {
     return plainToClass(StoreEntity, storeCreated);
   }
 
-  async update(id: number, updateStoreDto: UpdateStoreDto) {
+  async update(id: number, updateStoreDto: UpdateStoreDto): Promise<StoreEntity> {
     try {
       if (Object.keys(updateStoreDto).length === 0) {
         throw new StoreUpdateWithoutDataError(id);

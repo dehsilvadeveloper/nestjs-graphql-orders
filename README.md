@@ -42,5 +42,5 @@ The project was created for refinement of NestJS and GraphQL knowledge. It also 
 * [Getting Started](./docs/getting_started.md)
 * [CORS](./docs/cors.md)
 * [Prisma](./docs/prisma.md)
-* [GraphQL](./docs/graphQL.md)
+* [GraphQL](./docs/graphql.md)
 * [Available NPM Scripts](./docs/available_npm_scripts.md)

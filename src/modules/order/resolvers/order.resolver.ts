@@ -27,6 +27,11 @@ export class OrderResolver {
     return await this.orderService.update(id, data);
   }
 
+  @Mutation(() => OrderEntity, { name: 'cancelOrder' })
+  async cancelOrder(@Args('id') id: number): Promise<OrderEntity> {
+    return await this.orderService.cancel(id);
+  }
+
   @Query(() => OrderEntity, { name: 'getOrderById', nullable: true })
   async getOrderById(@Args('id') id: number): Promise<OrderEntity> {
     const order = await this.orderService.findById(id);

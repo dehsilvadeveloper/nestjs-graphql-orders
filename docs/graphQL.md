@@ -51,6 +51,7 @@ mutation {
     createdAt
     updatedAt
     paidAt
+    canceledAt
     deletedAt
     paymentType {
       name
@@ -82,6 +83,7 @@ mutation CreateOrder($input: CreateOrderDto!) {
     createdAt
     updatedAt
     paidAt
+    canceledAt
     deletedAt
     paymentType {
       name
@@ -140,6 +142,41 @@ mutation {
     createdAt
     updatedAt
     paidAt
+    canceledAt
+    deletedAt
+    paymentType {
+      name
+    }
+    orderStatus {
+      name
+    }
+    store {
+      name
+      ecommerceUrl
+      createdAt
+    }
+  }
+}
+```
+
+##### Cancel
+
+Query
+
+```graphql
+mutation {
+  cancelOrder(
+    id: 2
+  ) {
+    id
+    total
+    freightValue
+    origin
+    discount
+    createdAt
+    updatedAt
+    paidAt
+    canceledAt
     deletedAt
     paymentType {
       name

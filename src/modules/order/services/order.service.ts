@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { plainToClass } from 'class-transformer';
+import { OrderStatusEnum } from '@common/enums/order-status.enum';
 import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { UpdateOrderDto } from '../dtos/update-order.dto';
@@ -26,7 +27,7 @@ export class OrderService {
     return plainToClass(OrderEntity, orderCreated);
   }
 
-  async update(id: number, updateOrderDto: UpdateOrderDto) {
+  async update(id: number, updateOrderDto: UpdateOrderDto): Promise<OrderEntity> {
     try {
       if (Object.keys(updateOrderDto).length === 0) {
         throw new OrderUpdateWithoutDataError(id);
@@ -57,8 +58,34 @@ export class OrderService {
     }
   }
 
-  cancel(id: number) {
-    return `This action cancel a #${id} order`;
+  async cancel(id: number): Promise<OrderEntity> {
+    try {
+      const canceledOrder = await this.prismaService.order.update({
+        where: {
+          id: id,
+        },
+        data: {
+          canceledAt: new Date(),
+          orderStatusId: OrderStatusEnum.canceled
+        },
+        include: {
+          paymentType: true,
+          orderStatus: true,
+          store: true,
+        },
+      });
+
+      return plainToClass(OrderEntity, canceledOrder);
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === PrismaErrorEnum.recordsRequiredForOperationNotFound
+      ) {
+        throw new OrderNotFoundError(id);
+      }
+
+      throw error;
+    }
   }
 
   refund(id: number) {
