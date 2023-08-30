@@ -32,6 +32,11 @@ export class OrderResolver {
     return await this.orderService.cancel(id);
   }
 
+  @Mutation(() => OrderEntity, { name: 'refundOrder' })
+  async refundOrder(@Args('id') id: number): Promise<OrderEntity> {
+    return await this.orderService.refund(id);
+  }
+
   @Query(() => OrderEntity, { name: 'getOrderById', nullable: true })
   async getOrderById(@Args('id') id: number): Promise<OrderEntity> {
     const order = await this.orderService.findById(id);

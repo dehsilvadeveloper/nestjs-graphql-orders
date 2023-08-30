@@ -52,6 +52,7 @@ mutation {
     updatedAt
     paidAt
     canceledAt
+    refundedAt
     deletedAt
     paymentType {
       name
@@ -84,6 +85,7 @@ mutation CreateOrder($input: CreateOrderDto!) {
     updatedAt
     paidAt
     canceledAt
+    refundedAt
     deletedAt
     paymentType {
       name
@@ -143,6 +145,7 @@ mutation {
     updatedAt
     paidAt
     canceledAt
+    refundedAt
     deletedAt
     paymentType {
       name
@@ -177,6 +180,42 @@ mutation {
     updatedAt
     paidAt
     canceledAt
+    refundedAt
+    deletedAt
+    paymentType {
+      name
+    }
+    orderStatus {
+      name
+    }
+    store {
+      name
+      ecommerceUrl
+      createdAt
+    }
+  }
+}
+```
+
+##### Refund
+
+Query
+
+```graphql
+mutation {
+  refundOrder(
+    id: 2
+  ) {
+    id
+    total
+    freightValue
+    origin
+    discount
+    createdAt
+    updatedAt
+    paidAt
+    canceledAt
+    refundedAt
     deletedAt
     paymentType {
       name
@@ -209,6 +248,7 @@ query {
     updatedAt
     paidAt
     canceledAt
+    refundedAt
     deletedAt
     paymentType {
       name

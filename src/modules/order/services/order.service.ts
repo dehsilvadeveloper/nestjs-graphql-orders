@@ -88,8 +88,34 @@ export class OrderService {
     }
   }
 
-  refund(id: number) {
-    return `This action refunds a #${id} order`;
+  async refund(id: number) {
+    try {
+      const refundedOrder = await this.prismaService.order.update({
+        where: {
+          id: id,
+        },
+        data: {
+          refundedAt: new Date(),
+          orderStatusId: OrderStatusEnum.refunded
+        },
+        include: {
+          paymentType: true,
+          orderStatus: true,
+          store: true,
+        },
+      });
+
+      return plainToClass(OrderEntity, refundedOrder);
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === PrismaErrorEnum.recordsRequiredForOperationNotFound
+      ) {
+        throw new OrderNotFoundError(id);
+      }
+
+      throw error;
+    }
   }
 
   remove(id: number) {

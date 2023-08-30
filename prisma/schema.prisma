@@ -22,6 +22,7 @@ model Order {
   updatedAt     DateTime    @updatedAt
   paidAt        DateTime?
   canceledAt    DateTime?
+  refundedAt    DateTime?
   deletedAt     DateTime?
   paymentType   PaymentType @relation(fields: [paymentTypeId], references: [id])
   paymentTypeId Int

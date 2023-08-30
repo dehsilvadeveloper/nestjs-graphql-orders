@@ -26,8 +26,9 @@ The project was created for refinement of NestJS and GraphQL knowledge. It also 
 * Use separeted config files to define options of some parts of the application, avoiding direct access to environment variables
 * Use GraphQL with **code-first** approach using decorators
 * Enable or disable **GraphQL Playground** based on option of config file
-* Use Prisma for database modelling and migration
 * Use SQLite for database type
+* Use Prisma for database modelling and migration
+* Seed initial data on the database
 * Use modular approach to organize logic
 * Use Data Transfer Objects (DTOs) to transport groups of data between the application layers and to validate input data
 * Reuse DTO for create order on the DTO for update order using PartialType and OmitType
