@@ -1,32 +1,30 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigService } from '@nestjs/config';
+import { AppService } from './app.service';
 
-describe('AppController', () => {
-  let appController: AppController;
+describe('AppService', () => {
+  let appService: AppService;
   let configServiceMock: jest.Mocked<ConfigService>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AppController],
       providers: [
         AppService,
-        {
+        { 
           provide: ConfigService,
           useValue: {
-            getOrThrow: jest.fn(),
-          },
-        },
+            getOrThrow: jest.fn() 
+          }
+        }
       ],
     }).compile();
 
-    appController = module.get<AppController>(AppController);
+    appService = module.get<AppService>(AppService);
     configServiceMock = module.get(ConfigService) as jest.Mocked<ConfigService>;
   });
 
   it('should return introduction message', () => {
-    configServiceMock.getOrThrow.mockReturnValueOnce('http://localhost');
+    configServiceMock.getOrThrow.mockReturnValueOnce('http://localhost'); 
     configServiceMock.getOrThrow.mockReturnValueOnce(4000);
 
     const expectedIntroMessage: string = `
@@ -35,7 +33,7 @@ describe('AppController', () => {
       You can use the GraphQL API features making POST requests to the following endpoint:
       http://localhost:4000/graphql
     `;
-
-    expect(appController.getHello()).toEqual(expectedIntroMessage);
+    
+    expect(appService.getHello()).toEqual(expectedIntroMessage);
   });
 });
