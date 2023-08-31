@@ -36,6 +36,10 @@ The project was created for refinement of NestJS and GraphQL knowledge. It also 
 * Use **interceptors** to convert errors to exceptions
 * Use concepts of service pattern, with short service classes
 * Throw custom errors based on the Prisma exceptions types
+* Only allow cancel action on pending orders
+* Only allow refund action on paid orders
+* Only allow remove action on pending orders
+* Use soft delete approach on the remove actions
 * Create tests for the application using JEST
 
 ## Docs

@@ -232,6 +232,20 @@ mutation {
 }
 ```
 
+##### Delete
+
+Query
+
+```graphql
+mutation {
+  deleteOrder(
+    id: 2
+  ) {
+    message
+  }
+}
+```
+
 ##### Get by ID
 
 Query
@@ -309,6 +323,20 @@ mutation {
     createdAt
     updatedAt
     deletedAt
+  }
+}
+```
+
+##### Delete
+
+Query
+
+```graphql
+mutation {
+  deleteStore(
+    id: 2
+  ) {
+    message
   }
 }
 ```

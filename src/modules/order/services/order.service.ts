@@ -14,6 +14,7 @@ import { OrderIsCanceledError } from '../errors/order-is-canceled.error';
 import { OrderCannotBeCanceledError } from '../errors/order-cannot-be-canceled.error';
 import { OrderIsRefundedError } from '../errors/order-is-refunded.error';
 import { OrderCannotBeRefundedError } from '../errors/order-cannot-be-refunded.error';
+import { OrderCannotBeDeletedError } from '../errors/order-cannot-be-deleted.error';
 
 @Injectable()
 export class OrderService {
@@ -45,7 +46,7 @@ export class OrderService {
       });
 
       if (order?.deletedAt instanceof Date) {
-        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was removed`);
+        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was deleted`);
       }
 
       const updatedOrder = await this.prismaService.order.update({
@@ -82,7 +83,7 @@ export class OrderService {
       });
 
       if (order?.deletedAt instanceof Date) {
-        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was removed`);
+        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was deleted`);
       }
 
       if (order?.orderStatusId == OrderStatusEnum.canceled) {
@@ -121,7 +122,7 @@ export class OrderService {
     }
   }
 
-  async refund(id: number) {
+  async refund(id: number): Promise<OrderEntity> {
     try {
       const order = await this.prismaService.order.findFirst({
         where: {
@@ -130,7 +131,7 @@ export class OrderService {
       });
 
       if (order?.deletedAt instanceof Date) {
-        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was removed`);
+        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was deleted`);
       }
 
       if (order?.orderStatusId == OrderStatusEnum.refunded) {
@@ -169,8 +170,47 @@ export class OrderService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order. Its only possible to soft delete pending orders`;
+  async delete(id: number): Promise<OrderEntity> {
+    try {
+      const order = await this.prismaService.order.findFirst({
+        where: {
+          id: id,
+        },
+      });
+
+      if (order?.deletedAt instanceof Date) {
+        throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was already deleted`);
+      }
+
+      if (order?.orderStatusId != OrderStatusEnum.pending) {
+        throw new OrderCannotBeDeletedError(`Cannot proceed. Only pending orders can be deleted`);
+      }
+
+      const deletedOrder = await this.prismaService.order.update({
+        where: {
+          id: id,
+        },
+        data: {
+          deletedAt: new Date(),
+        },
+        include: {
+          paymentType: true,
+          orderStatus: true,
+          store: true,
+        },
+      });
+
+      return plainToClass(OrderEntity, deletedOrder);
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === PrismaErrorEnum.recordsRequiredForOperationNotFound
+      ) {
+        throw new OrderNotFoundError(id);
+      }
+
+      throw error;
+    }
   }
 
   async findById(id: number): Promise<OrderEntity | null> {

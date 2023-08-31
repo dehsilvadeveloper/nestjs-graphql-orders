@@ -35,7 +35,7 @@ export class StoreService {
       });
 
       if (store?.deletedAt instanceof Date) {
-        throw new StoreIsDeletedError(`Cannot proceed. The store #${id} was removed`);
+        throw new StoreIsDeletedError(`Cannot proceed. The store #${id} was deleted`);
       }
 
       const updatedStore = await this.prismaService.store.update({
@@ -46,6 +46,40 @@ export class StoreService {
       });
 
       return plainToClass(StoreEntity, updatedStore);
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === PrismaErrorEnum.recordsRequiredForOperationNotFound
+      ) {
+        throw new StoreNotFoundError(id);
+      }
+
+      throw error;
+    }
+  }
+
+  async delete(id: number): Promise<StoreEntity> {
+    try {
+      const store = await this.prismaService.store.findFirst({
+        where: {
+          id: id,
+        },
+      });
+
+      if (store?.deletedAt instanceof Date) {
+        throw new StoreIsDeletedError(`Cannot proceed. The store #${id} was already deleted`);
+      }
+
+      const deletedStore = await this.prismaService.store.update({
+        where: {
+          id: id,
+        },
+        data: {
+          deletedAt: new Date(),
+        },
+      });
+
+      return plainToClass(StoreEntity, deletedStore);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
