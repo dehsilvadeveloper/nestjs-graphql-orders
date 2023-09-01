@@ -16,6 +16,10 @@ Run migrations for development environment using Prisma.
 
 Run tests.
 
+#### `npm run test -t {NOME DO ARQUIVO DO TESTE}`
+
+Run specific test.
+
 #### `npm run test:e2e`
 
 Run end to end tests.

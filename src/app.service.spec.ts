@@ -10,12 +10,12 @@ describe('AppService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AppService,
-        { 
+        {
           provide: ConfigService,
           useValue: {
-            getOrThrow: jest.fn() 
-          }
-        }
+            getOrThrow: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
@@ -23,8 +23,12 @@ describe('AppService', () => {
     configServiceMock = module.get(ConfigService) as jest.Mocked<ConfigService>;
   });
 
+  it('should be defined', () => {
+    expect(appService).toBeDefined();
+  });
+
   it('should return introduction message', () => {
-    configServiceMock.getOrThrow.mockReturnValueOnce('http://localhost'); 
+    configServiceMock.getOrThrow.mockReturnValueOnce('http://localhost');
     configServiceMock.getOrThrow.mockReturnValueOnce(4000);
 
     const expectedIntroMessage: string = `
@@ -33,7 +37,7 @@ describe('AppService', () => {
       You can use the GraphQL API features making POST requests to the following endpoint:
       http://localhost:4000/graphql
     `;
-    
+
     expect(appService.getHello()).toEqual(expectedIntroMessage);
   });
 });

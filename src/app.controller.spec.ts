@@ -25,6 +25,10 @@ describe('AppController', () => {
     configServiceMock = module.get(ConfigService) as jest.Mocked<ConfigService>;
   });
 
+  it('should be defined', () => {
+    expect(appController).toBeDefined();
+  });
+
   it('should return introduction message', () => {
     configServiceMock.getOrThrow.mockReturnValueOnce('http://localhost');
     configServiceMock.getOrThrow.mockReturnValueOnce(4000);
