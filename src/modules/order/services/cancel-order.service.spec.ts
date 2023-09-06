@@ -2,15 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { CancelOrderService } from './cancel-order.service';
-import { OrderOriginEnum } from '@common/enums/order-origin.enum';
 import { OrderStatusEnum } from '@common/enums/order-status.enum';
-import { PaymentTypeEnum } from '@common/enums/payment-type.enum';
 import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { OrderEntity } from '../entities/order.entity';
 import { OrderIsDeletedError } from '../errors/order-is-deleted.error';
 import { OrderNotFoundError } from '../errors/order-not-found.error';
 import { OrderIsCanceledError } from '../errors/order-is-canceled.error';
 import { OrderCannotBeCanceledError } from '../errors/order-cannot-be-canceled.error';
+import { ordersFixture } from '../fixtures/order.fixture';
+import { orderStatusesFixture } from '../fixtures/order-status.fixture';
 
 const database = {
   order: {
@@ -23,104 +23,6 @@ const database = {
     findUnique: jest.fn(),
   },
 };
-
-const storesArray = [
-  { id: 1, name: 'Store A1', ecommerceUrl: 'http://store.a1.test.com' },
-  { id: 2, name: 'Store B2', ecommerceUrl: 'http://store.b2.test.com' },
-];
-
-const orderStatusesArray = [
-  { id: OrderStatusEnum.pending, name: 'pending' },
-  { id: OrderStatusEnum.paid, name: 'paid' },
-  { id: OrderStatusEnum.canceled, name: 'canceled' },
-  { id: OrderStatusEnum.refunded, name: 'refunded' },
-];
-
-const paymentTypesArray = [
-  { id: PaymentTypeEnum.boleto, name: 'boleto' },
-  { id: PaymentTypeEnum.creditcard, name: 'creditcard' },
-  { id: PaymentTypeEnum.paypal, name: 'paypal' },
-  { id: PaymentTypeEnum.pix, name: 'pix' },
-];
-
-const ordersArray = [
-  {
-    id: 1,
-    total: 100,
-    freightValue: 10,
-    discount: 5,
-    origin: OrderOriginEnum.web,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    paidAt: null,
-    canceledAt: null,
-    refundedAt: null,
-    deletedAt: null,
-    paymentTypeId: 1,
-    orderStatusId: OrderStatusEnum.pending,
-    storeId: 1,
-    paymentType: paymentTypesArray[1],
-    orderStatus: orderStatusesArray[0],
-    store: storesArray[1],
-  },
-  {
-    id: 2,
-    total: 100,
-    freightValue: 10,
-    discount: 5,
-    origin: OrderOriginEnum.mobile,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    paidAt: null,
-    canceledAt: null,
-    refundedAt: null,
-    deletedAt: new Date(),
-    paymentTypeId: 1,
-    orderStatusId: OrderStatusEnum.pending,
-    storeId: 1,
-    paymentType: paymentTypesArray[2],
-    orderStatus: orderStatusesArray[0],
-    store: storesArray[0],
-  },
-  {
-    id: 3,
-    total: 100,
-    freightValue: 10,
-    discount: 5,
-    origin: OrderOriginEnum.web,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    paidAt: null,
-    canceledAt: new Date(),
-    refundedAt: null,
-    deletedAt: null,
-    paymentTypeId: 1,
-    orderStatusId: OrderStatusEnum.canceled,
-    storeId: 1,
-    paymentType: paymentTypesArray[3],
-    orderStatus: orderStatusesArray[2],
-    store: storesArray[0],
-  },
-  {
-    id: 4,
-    total: 100,
-    freightValue: 10,
-    discount: 5,
-    origin: OrderOriginEnum.mobile,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    paidAt: new Date(),
-    canceledAt: null,
-    refundedAt: null,
-    deletedAt: null,
-    paymentTypeId: 1,
-    orderStatusId: OrderStatusEnum.paid,
-    storeId: 1,
-    paymentType: paymentTypesArray[0],
-    orderStatus: orderStatusesArray[1],
-    store: storesArray[1],
-  },
-];
 
 describe('CancelOrderService', () => {
   let cancelOrderService: CancelOrderService;
@@ -150,14 +52,14 @@ describe('CancelOrderService', () => {
   });
 
   it('should cancel order', async () => {
-    const originalOrder = ordersArray[0];
+    const originalOrder = ordersFixture[0];
     const findFirstSpy = jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(originalOrder);
     const updateSpy = jest.spyOn(prismaService.order, 'update').mockResolvedValue({
       ...originalOrder,
       ...{
         canceledAt: new Date(),
         orderStatusId: OrderStatusEnum.canceled,
-        orderStatus: orderStatusesArray[2],
+        orderStatus: orderStatusesFixture[2],
       },
     });
 
@@ -193,21 +95,21 @@ describe('CancelOrderService', () => {
   });
 
   it('should throw an error if order is deleted', async () => {
-    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersArray[1]);
+    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersFixture[1]);
 
-    await expect(cancelOrderService.cancel(ordersArray[1].id)).rejects.toThrow(OrderIsDeletedError);
+    await expect(cancelOrderService.cancel(ordersFixture[1].id)).rejects.toThrow(OrderIsDeletedError);
   });
 
   it('should throw an error if order was already canceled', async () => {
-    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersArray[2]);
+    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersFixture[2]);
 
-    await expect(cancelOrderService.cancel(ordersArray[2].id)).rejects.toThrow(OrderIsCanceledError);
+    await expect(cancelOrderService.cancel(ordersFixture[2].id)).rejects.toThrow(OrderIsCanceledError);
   });
 
   it('should throw an error if the order is not pending', async () => {
-    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersArray[3]);
+    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersFixture[3]);
 
-    await expect(cancelOrderService.cancel(ordersArray[3].id)).rejects.toThrow(OrderCannotBeCanceledError);
+    await expect(cancelOrderService.cancel(ordersFixture[3].id)).rejects.toThrow(OrderCannotBeCanceledError);
   });
 
   it('should throw error if the record could not be updated', async () => {
@@ -217,9 +119,16 @@ describe('CancelOrderService', () => {
       meta: { cause: 'Record to update not found.' }
     });
 
-    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersArray[0]);
+    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersFixture[0]);
     jest.spyOn(prismaService.order, 'update').mockRejectedValue(prismaErrorMock);
 
-    await expect(cancelOrderService.cancel(ordersArray[0].id)).rejects.toThrow(OrderNotFoundError);
+    await expect(cancelOrderService.cancel(ordersFixture[0].id)).rejects.toThrow(OrderNotFoundError);
+  });
+
+  it('should throw an error on unexpected prisma error', async () => {
+    jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(ordersFixture[0]);
+    jest.spyOn(prismaService.order, 'update').mockRejectedValue(new Error('Unexpected database error.'));
+
+    await expect(cancelOrderService.cancel(ordersFixture[0].id)).rejects.toThrow('Unexpected database error.');
   });
 });
