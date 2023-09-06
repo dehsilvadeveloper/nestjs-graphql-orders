@@ -41,6 +41,7 @@ The project was created for refinement of NestJS and GraphQL knowledge. It also 
 * Only allow remove action on pending orders
 * Use soft delete approach on the remove actions
 * Create tests for the application using JEST
+* Use fixture classes as mocked data for tests
 
 ## Docs
 

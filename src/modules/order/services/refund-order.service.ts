@@ -22,6 +22,10 @@ export class RefundOrderService {
         },
       });
 
+      if (!order) {
+        throw new OrderNotFoundError(id);
+      }
+
       if (order?.deletedAt instanceof Date) {
         throw new OrderIsDeletedError(`Cannot proceed. The order #${id} was deleted`);
       }

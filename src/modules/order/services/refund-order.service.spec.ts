@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
-import { CancelOrderService } from './cancel-order.service';
+import { RefundOrderService } from './refund-order.service';
 import { OrderStatusEnum } from '@common/enums/order-status.enum';
 import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { OrderEntity } from '../entities/order.entity';
 import { OrderIsDeletedError } from '../errors/order-is-deleted.error';
 import { OrderNotFoundError } from '../errors/order-not-found.error';
-import { OrderIsCanceledError } from '../errors/order-is-canceled.error';
-import { OrderCannotBeCanceledError } from '../errors/order-cannot-be-canceled.error';
+import { OrderIsRefundedError } from '../errors/order-is-refunded.error';
+import { OrderCannotBeRefundedError } from '../errors/order-cannot-be-refunded.error';
 import { ordersFixture } from '../fixtures/order.fixture';
 import { orderStatusesFixture } from '../fixtures/order-status.fixture';
 
@@ -24,14 +24,14 @@ const database = {
   },
 };
 
-describe('CancelOrderService', () => {
-  let cancelOrderService: CancelOrderService;
+describe('RefundOrderService', () => {
+  let refundOrderService: RefundOrderService;
   let prismaService: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        CancelOrderService,
+        RefundOrderService,
         {
           provide: PrismaService,
           useValue: database,
@@ -39,7 +39,7 @@ describe('CancelOrderService', () => {
       ],
     }).compile();
 
-    cancelOrderService = module.get<CancelOrderService>(CancelOrderService);
+    refundOrderService = module.get<RefundOrderService>(RefundOrderService);
     prismaService = module.get<PrismaService>(PrismaService);
   });
 
@@ -48,22 +48,22 @@ describe('CancelOrderService', () => {
   });
 
   it('should be defined', () => {
-    expect(cancelOrderService).toBeDefined();
+    expect(refundOrderService).toBeDefined();
   });
 
-  it('should cancel order', async () => {
-    const originalOrder = ordersFixture[0];
+  it('should refund order', async () => {
+    const originalOrder = ordersFixture[3];
     const findFirstSpy = jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(originalOrder);
     const updateSpy = jest.spyOn(prismaService.order, 'update').mockResolvedValue({
       ...originalOrder,
       ...{
-        canceledAt: new Date(),
-        orderStatusId: OrderStatusEnum.canceled,
-        orderStatus: orderStatusesFixture[2],
+        refundedAt: new Date(),
+        orderStatusId: OrderStatusEnum.refunded,
+        orderStatus: orderStatusesFixture[3],
       },
     });
 
-    const canceledOrder = await cancelOrderService.cancel(originalOrder.id);
+    const refundedOrder = await refundOrderService.refund(originalOrder.id);
 
     expect(findFirstSpy).toHaveBeenCalledTimes(1);
     expect(findFirstSpy).toBeCalledWith({
@@ -73,8 +73,8 @@ describe('CancelOrderService', () => {
     expect(updateSpy).toBeCalledWith({
       where: { id: originalOrder.id },
       data: {
-        canceledAt: expect.any(Date),
-        orderStatusId: OrderStatusEnum.canceled,
+        refundedAt: expect.any(Date),
+        orderStatusId: OrderStatusEnum.refunded,
       },
       include: {
         paymentType: true,
@@ -83,40 +83,40 @@ describe('CancelOrderService', () => {
       },
     });
 
-    expect(canceledOrder).toBeInstanceOf(OrderEntity);
-    expect(canceledOrder.canceledAt).toEqual(expect.any(Date));
-    expect(canceledOrder.orderStatus.id).toBe(OrderStatusEnum.canceled);
+    expect(refundedOrder).toBeInstanceOf(OrderEntity);
+    expect(refundedOrder.refundedAt).toEqual(expect.any(Date));
+    expect(refundedOrder.orderStatus.id).toBe(OrderStatusEnum.refunded);
   });
 
   it('should throw error if order does not exists', async () => {
     jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(null);
 
-    await expect(cancelOrderService.cancel(999)).rejects.toThrow(OrderNotFoundError);
+    await expect(refundOrderService.refund(999)).rejects.toThrow(OrderNotFoundError);
   });
 
   it('should throw error if order is deleted', async () => {
     const originalOrder = ordersFixture[1];
     jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(originalOrder);
 
-    await expect(cancelOrderService.cancel(originalOrder.id)).rejects.toThrow(OrderIsDeletedError);
+    await expect(refundOrderService.refund(originalOrder.id)).rejects.toThrow(OrderIsDeletedError);
   });
 
-  it('should throw error if order was already canceled', async () => {
-    const originalOrder = ordersFixture[2];
+  it('should throw error if order was already refunded', async () => {
+    const originalOrder = ordersFixture[4];
     jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(originalOrder);
 
-    await expect(cancelOrderService.cancel(originalOrder.id)).rejects.toThrow(OrderIsCanceledError);
+    await expect(refundOrderService.refund(originalOrder.id)).rejects.toThrow(OrderIsRefundedError);
   });
 
-  it('should throw error if the order is not pending', async () => {
-    const originalOrder = ordersFixture[3];
+  it('should throw error if the order is not paid', async () => {
+    const originalOrder = ordersFixture[0];
     jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(originalOrder);
 
-    await expect(cancelOrderService.cancel(originalOrder.id)).rejects.toThrow(OrderCannotBeCanceledError);
+    await expect(refundOrderService.refund(originalOrder.id)).rejects.toThrow(OrderCannotBeRefundedError);
   });
 
   it('should throw error if the record could not be updated', async () => {
-    const originalOrder = ordersFixture[0];
+    const originalOrder = ordersFixture[3];
     const prismaErrorMock = new Prisma.PrismaClientKnownRequestError('Error message', {
       clientVersion: '5.1.1',
       code: PrismaErrorEnum.recordsRequiredForOperationNotFound,
@@ -126,14 +126,14 @@ describe('CancelOrderService', () => {
     jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(originalOrder);
     jest.spyOn(prismaService.order, 'update').mockRejectedValue(prismaErrorMock);
 
-    await expect(cancelOrderService.cancel(originalOrder.id)).rejects.toThrow(OrderNotFoundError);
+    await expect(refundOrderService.refund(originalOrder.id)).rejects.toThrow(OrderNotFoundError);
   });
 
   it('should throw error on unexpected prisma error', async () => {
-    const originalOrder = ordersFixture[0];
+    const originalOrder = ordersFixture[3];
     jest.spyOn(prismaService.order, 'findFirst').mockResolvedValue(originalOrder);
     jest.spyOn(prismaService.order, 'update').mockRejectedValue(new Error('Unexpected database error.'));
 
-    await expect(cancelOrderService.cancel(originalOrder.id)).rejects.toThrow('Unexpected database error.');
+    await expect(refundOrderService.refund(originalOrder.id)).rejects.toThrow('Unexpected database error.');
   });
 });
