@@ -80,7 +80,7 @@ type OrderEntity {
   store: StoreEntity!
 }
 
-type DeleteOrderResponse {
+type SimpleResponse {
   message: String!
 }
 
@@ -95,10 +95,10 @@ type Mutation {
   updateOrder(id: Float!, data: UpdateOrderDto!): OrderEntity!
   cancelOrder(id: Float!): OrderEntity!
   refundOrder(id: Float!): OrderEntity!
-  deleteOrder(id: Float!): DeleteOrderResponse!
+  deleteOrder(id: Float!): SimpleResponse!
   createStore(data: CreateStoreDto!): StoreEntity!
   updateStore(id: Float!, data: UpdateStoreDto!): StoreEntity!
-  deleteStore(id: Float!): StoreEntity!
+  deleteStore(id: Float!): SimpleResponse!
 }
 
 input CreateOrderDto {
