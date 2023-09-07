@@ -4,7 +4,7 @@ import { OrderOriginEnum } from '@common/enums/order-origin.enum';
 
 @InputType()
 export class CreateOrderDto {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'The field total cannot be empty.' })
   @IsNumber()
   @Field()
   total: number;
@@ -28,11 +28,6 @@ export class CreateOrderDto {
   @IsNumber()
   @Field()
   paymentTypeId: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  @Field()
-  orderStatusId: number;
 
   @IsNotEmpty()
   @IsNumber()

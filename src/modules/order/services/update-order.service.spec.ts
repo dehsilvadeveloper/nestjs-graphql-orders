@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { UpdateOrderService } from './update-order.service';
-import { OrderStatusEnum } from '@common/enums/order-status.enum';
 import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { UpdateOrderDto } from '../dtos/update-order.dto';
 import { OrderEntity } from '../entities/order.entity';

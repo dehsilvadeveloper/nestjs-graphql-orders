@@ -21,8 +21,13 @@ export class OrderService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(createOrderDto: CreateOrderDto): Promise<OrderEntity> {
+    const data = {
+      orderStatusId: OrderStatusEnum.pending,
+      ...createOrderDto,
+    };
+
     const orderCreated = await this.prismaService.order.create({
-      data: createOrderDto,
+      data: data,
       include: {
         paymentType: true,
         orderStatus: true,

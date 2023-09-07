@@ -10,6 +10,10 @@ Open the Prisma Studio on the browser, allowing to see the models and data creat
 
 Run migrations for development environment using Prisma.
 
+#### `npm run prisma:seed`
+
+Seed (fill) data to the database using Prisma.
+
 ## For tests
 
 #### `npm run test`

@@ -39,7 +39,6 @@ mutation {
       origin: "mobile"
       discount: 0
       paymentTypeId: 1
-      orderStatusId: 1
       storeId: 1
     }
   ) {
@@ -112,7 +111,6 @@ Query variables
     "origin": "web",
     "discount": 0,
     "paymentTypeId": 1,
-    "orderStatusId": 1,
     "storeId": 1
   }
 }

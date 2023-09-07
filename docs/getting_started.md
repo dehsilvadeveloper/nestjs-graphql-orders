@@ -24,7 +24,7 @@ npm run prisma:generate
 
 #### Creating database structure
 
-To create the database structure, you have to use the following script:
+To create the database structure, you have to start a *migration process*. To do that, use the following script:
 
 ```shell
 npm run prisma:migrate:dev
@@ -32,7 +32,13 @@ npm run prisma:migrate:dev
 
 #### Seeding data
 
-To seed data to your database, you have to use the following script:
+Usually the *migration process* immediately invoke the *seed process* on its conclusion, filling the required data to your database tables. You will know if the seed process was executed if you see the following message on your terminal:
+
+```
+The seed command has been executed.
+```
+
+If you cannot see the message, you can run the seed process manually using the following script:
 
 ```shell
 npm run prisma:seed

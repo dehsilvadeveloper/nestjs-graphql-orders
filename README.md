@@ -31,7 +31,7 @@ The project was created for refinement of NestJS and GraphQL knowledge. It also 
 * Seed initial data on the database
 * Use modular approach to organize logic
 * Use Data Transfer Objects (DTOs) to transport groups of data between the application layers and to validate input data
-* Reuse DTO for create order on the DTO for update order using PartialType and OmitType
+* Reuse DTO for create order on the DTO for update order using PartialType and/or OmitType
 * Use **transform** decorator to format dates of entity classes only when they are serialized to JSON
 * Use **interceptors** to convert errors to exceptions
 * Use concepts of service pattern, with short service classes

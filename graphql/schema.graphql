@@ -107,7 +107,6 @@ input CreateOrderDto {
   discount: Float!
   origin: String!
   paymentTypeId: Float!
-  orderStatusId: Float!
   storeId: Float!
 }
 
