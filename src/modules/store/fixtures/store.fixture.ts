@@ -15,4 +15,12 @@ export const storesFixture = [
     updatedAt: new Date(),
     deletedAt: null,
   },
+  {
+    id: 3,
+    name: 'Store C3',
+    ecommerceUrl: 'http://store.c3.test.com',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: new Date(),
+  },
 ];

@@ -19,6 +19,10 @@ export class DeleteStoreService {
         },
       });
 
+      if (!store) {
+        throw new StoreNotFoundError(id);
+      }
+
       if (store?.deletedAt instanceof Date) {
         throw new StoreIsDeletedError(`Cannot proceed. The store #${id} was already deleted`);
       }
