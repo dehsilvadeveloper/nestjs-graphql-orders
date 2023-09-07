@@ -1,11 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { CreateOrderService } from './create-order.service';
 import { OrderOriginEnum } from '@common/enums/order-origin.enum';
 import { OrderStatusEnum } from '@common/enums/order-status.enum';
 import { PaymentTypeEnum } from '@common/enums/payment-type.enum';
-import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { OrderEntity } from '../entities/order.entity';
 import { ordersFixture } from '../fixtures/order.fixture';
@@ -84,6 +82,12 @@ describe('CreateOrderService', () => {
     expect(createdOrder.paymentType.id).toEqual(PaymentTypeEnum.pix);
     expect(createdOrder.orderStatus.id).toEqual(OrderStatusEnum.pending);
     expect(createdOrder.store.id).toEqual(1);
+    expect(createdOrder.createdAt).toEqual(expect.any(Date));
+    expect(createdOrder.updatedAt).toEqual(expect.any(Date));
+    expect(createdOrder.paidAt).toBeNull();
+    expect(createdOrder.canceledAt).toBeNull();
+    expect(createdOrder.refundedAt).toBeNull();
+    expect(createdOrder.deletedAt).toBeNull();
   });
 
   it('should throw error on unexpected prisma error', async () => {
