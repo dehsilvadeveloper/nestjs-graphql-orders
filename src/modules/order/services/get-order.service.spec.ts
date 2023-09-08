@@ -5,19 +5,8 @@ import { OrderOriginEnum } from '@common/enums/order-origin.enum';
 import { OrderStatusEnum } from '@common/enums/order-status.enum';
 import { PaymentTypeEnum } from '@common/enums/payment-type.enum';
 import { OrderEntity } from '../entities/order.entity';
+import { prismaMock } from '@common/mocks/prisma.mock';
 import { ordersFixture } from '../fixtures/order.fixture';
-
-const database = {
-  order: {
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    findFirst: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
 
 describe('GetOrderService', () => {
   let getOrderService: GetOrderService;
@@ -29,7 +18,7 @@ describe('GetOrderService', () => {
         GetOrderService,
         {
           provide: PrismaService,
-          useValue: database,
+          useValue: prismaMock,
         },
       ],
     }).compile();

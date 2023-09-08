@@ -6,19 +6,8 @@ import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { StoreEntity } from '../entities/store.entity';
 import { StoreNotFoundError } from '../errors/store-not-found.error';
 import { StoreIsDeletedError } from '../errors/store-is-deleted.error';
+import { prismaMock } from '@common/mocks/prisma.mock';
 import { storesFixture } from '../fixtures/store.fixture';
-
-const database = {
-  store: {
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    findFirst: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
 
 describe('DeleteStoreService', () => {
   let deleteStoreService: DeleteStoreService;
@@ -30,7 +19,7 @@ describe('DeleteStoreService', () => {
         DeleteStoreService,
         {
           provide: PrismaService,
-          useValue: database,
+          useValue: prismaMock,
         },
       ],
     }).compile();

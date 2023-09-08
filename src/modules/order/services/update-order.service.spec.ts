@@ -8,19 +8,8 @@ import { OrderEntity } from '../entities/order.entity';
 import { OrderIsDeletedError } from '../errors/order-is-deleted.error';
 import { OrderNotFoundError } from '../errors/order-not-found.error';
 import { OrderUpdateWithoutDataError } from '../errors/order-update-without-data.error';
+import { prismaMock } from '@common/mocks/prisma.mock';
 import { ordersFixture } from '../fixtures/order.fixture';
-
-const database = {
-  order: {
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    findFirst: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
 
 describe('UpdateOrderService', () => {
   let updateOrderService: UpdateOrderService;
@@ -32,7 +21,7 @@ describe('UpdateOrderService', () => {
         UpdateOrderService,
         {
           provide: PrismaService,
-          useValue: database,
+          useValue: prismaMock,
         },
       ],
     }).compile();

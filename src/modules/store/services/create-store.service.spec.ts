@@ -3,19 +3,8 @@ import { PrismaService } from '@database/prisma/prisma.service';
 import { CreateStoreService } from './create-store.service';
 import { CreateStoreDto } from '../dtos/create-store.dto';
 import { StoreEntity } from '../entities/store.entity';
+import { prismaMock } from '@common/mocks/prisma.mock';
 import { storesFixture } from '../fixtures/store.fixture';
-
-const database = {
-  store: {
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    findFirst: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
 
 describe('CreateStoreService', () => {
   let createStoreService: CreateStoreService;
@@ -27,7 +16,7 @@ describe('CreateStoreService', () => {
         CreateStoreService,
         {
           provide: PrismaService,
-          useValue: database,
+          useValue: prismaMock,
         },
       ],
     }).compile();

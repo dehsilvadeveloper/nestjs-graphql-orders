@@ -6,6 +6,7 @@ import { StoreEntity } from '../entities/store.entity';
 @Injectable()
 export class GetStoreService {
   constructor(private readonly prismaService: PrismaService) {}
+
   async findById(id: number): Promise<StoreEntity | null> {
     const store = await this.prismaService.store.findFirst({
       where: {

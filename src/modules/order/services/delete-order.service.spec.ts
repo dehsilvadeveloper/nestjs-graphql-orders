@@ -7,19 +7,8 @@ import { OrderEntity } from '../entities/order.entity';
 import { OrderIsDeletedError } from '../errors/order-is-deleted.error';
 import { OrderNotFoundError } from '../errors/order-not-found.error';
 import { OrderCannotBeDeletedError } from '../errors/order-cannot-be-deleted.error';
+import { prismaMock } from '@common/mocks/prisma.mock';
 import { ordersFixture } from '../fixtures/order.fixture';
-
-const database = {
-  order: {
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    findFirst: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
 
 describe('DeleteOrderService', () => {
   let deleteOrderService: DeleteOrderService;
@@ -31,7 +20,7 @@ describe('DeleteOrderService', () => {
         DeleteOrderService,
         {
           provide: PrismaService,
-          useValue: database,
+          useValue: prismaMock,
         },
       ],
     }).compile();

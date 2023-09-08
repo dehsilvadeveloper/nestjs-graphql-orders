@@ -9,20 +9,9 @@ import { OrderIsDeletedError } from '../errors/order-is-deleted.error';
 import { OrderNotFoundError } from '../errors/order-not-found.error';
 import { OrderIsRefundedError } from '../errors/order-is-refunded.error';
 import { OrderCannotBeRefundedError } from '../errors/order-cannot-be-refunded.error';
+import { prismaMock } from '@common/mocks/prisma.mock';
 import { ordersFixture } from '../fixtures/order.fixture';
 import { orderStatusesFixture } from '../fixtures/order-status.fixture';
-
-const database = {
-  order: {
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    findFirst: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
 
 describe('RefundOrderService', () => {
   let refundOrderService: RefundOrderService;
@@ -34,7 +23,7 @@ describe('RefundOrderService', () => {
         RefundOrderService,
         {
           provide: PrismaService,
-          useValue: database,
+          useValue: prismaMock,
         },
       ],
     }).compile();

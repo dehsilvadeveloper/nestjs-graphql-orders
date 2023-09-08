@@ -1,18 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from '@database/prisma/prisma.service';
 import { GetOrdersService } from './get-orders.service';
-
-const database = {
-  order: {
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    findFirst: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
+import { prismaMock } from '@common/mocks/prisma.mock';
 
 describe('GetOrdersService', () => {
   let getOrdersService: GetOrdersService;
@@ -24,7 +13,7 @@ describe('GetOrdersService', () => {
         GetOrdersService,
         {
           provide: PrismaService,
-          useValue: database,
+          useValue: prismaMock,
         },
       ],
     }).compile();

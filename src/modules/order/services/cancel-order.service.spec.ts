@@ -9,20 +9,9 @@ import { OrderIsDeletedError } from '../errors/order-is-deleted.error';
 import { OrderNotFoundError } from '../errors/order-not-found.error';
 import { OrderIsCanceledError } from '../errors/order-is-canceled.error';
 import { OrderCannotBeCanceledError } from '../errors/order-cannot-be-canceled.error';
+import { prismaMock } from '@common/mocks/prisma.mock';
 import { ordersFixture } from '../fixtures/order.fixture';
 import { orderStatusesFixture } from '../fixtures/order-status.fixture';
-
-const database = {
-  order: {
-    create: jest.fn(),
-    save: jest.fn(),
-    update: jest.fn(),
-    delete: jest.fn(),
-    findFirst: jest.fn(),
-    findMany: jest.fn(),
-    findUnique: jest.fn(),
-  },
-};
 
 describe('CancelOrderService', () => {
   let cancelOrderService: CancelOrderService;
@@ -34,7 +23,7 @@ describe('CancelOrderService', () => {
         CancelOrderService,
         {
           provide: PrismaService,
-          useValue: database,
+          useValue: prismaMock,
         },
       ],
     }).compile();
