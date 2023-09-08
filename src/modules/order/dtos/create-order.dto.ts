@@ -4,7 +4,7 @@ import { OrderOriginEnum } from '@common/enums/order-origin.enum';
 
 @InputType()
 export class CreateOrderDto {
-  @IsNotEmpty({ message: 'The field total cannot be empty.' })
+  @IsNotEmpty()
   @IsNumber()
   @Field()
   total: number;
