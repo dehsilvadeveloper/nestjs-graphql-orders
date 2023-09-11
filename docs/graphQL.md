@@ -22,6 +22,21 @@ Here are provided examples of GraphQL queries so that you can test the applicati
 
 [Insomnia](https://insomnia.rest/download)
 
+#### Health Check
+
+Query
+
+```graphql
+query {
+  health {
+    status
+    info
+    error
+    details
+  }
+}
+```
+
 #### Entity Order
 
 ##### Create

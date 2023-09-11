@@ -7,6 +7,7 @@ import { config } from './config/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from '@database/database.module';
+import { HealthModule } from '@modules/health/health.module';
 import { OrderModule } from '@modules/order/order.module';
 import { StoreModule } from '@modules/store/store.module';
 
@@ -31,6 +32,7 @@ import { StoreModule } from '@modules/store/store.module';
       }),
       inject: [ConfigService],
     }),
+    HealthModule,
     OrderModule,
     StoreModule,
   ],

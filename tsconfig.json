@@ -20,6 +20,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "useUnknownInCatchVariables": false,
     "paths": {
       "@config/*": ["./src/config/*"],
       "@database/*": ["./src/database/*"],

@@ -2,6 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type HealthResponse {
+  status: String!
+  info: JSONObject
+  error: JSONObject
+  details: JSONObject
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
 type OrderStatusEntity {
   id: Int!
 
@@ -85,6 +97,7 @@ type SimpleResponse {
 }
 
 type Query {
+  health: HealthResponse!
   sayHello: String!
   getOrderById(id: Float!): OrderEntity
   getStoreById(id: Float!): StoreEntity
