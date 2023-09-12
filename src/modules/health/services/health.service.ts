@@ -15,7 +15,7 @@ export class HealthService {
 
   async healthCheck(): Promise<HealthCheckResult> {
     return await this.healthCheckService.check([
-      () => this.httpHealth.pingCheck('basic-check', this.getAppBaseUrl(), { timeout: 3000 }),
+      () => this.httpHealth.pingCheck('http', this.getAppBaseUrl(), { timeout: 3000 }),
       () => this.prismaHealth.pingCheck('database', this.prisma, { timeout: 3000 }),
     ]);
   }

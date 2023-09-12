@@ -38,7 +38,7 @@ The project was created for refinement of NestJS and GraphQL knowledge. It also 
 * Enable or disable **GraphQL Playground** based on option of config file
 * Use SQLite for database type
 * Use Prisma for database modelling and migration
-* Seed initial data on the database
+* Seed initial data on the database after migration
 * Use modular approach to organize logic
 * Use Data Transfer Objects (DTOs) to transport groups of data between the application layers and to validate input data
 * Reuse DTO for create order on the DTO for update order using PartialType and/or OmitType
@@ -50,6 +50,7 @@ The project was created for refinement of NestJS and GraphQL knowledge. It also 
 * Only allow refund action on paid orders
 * Only allow remove action on pending orders
 * Use soft delete approach on the remove actions
+* Create a module for health check (using GraphQL and **Terminus**)
 * Create tests for the application using JEST
 * Use fixture classes as mocked data for tests
 
