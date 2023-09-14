@@ -49,6 +49,7 @@ The project was created for refinement of NestJS and GraphQL knowledge. It also 
 * Only allow cancel action on pending orders
 * Only allow refund action on paid orders
 * Only allow remove action on pending orders
+* List orders with filter, pagination and sort
 * Use soft delete approach on the remove actions
 * Create a module for health check (using GraphQL and **Terminus**)
 * Create tests for the application using JEST

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { StoreResolver } from './store.resolver';
 import { CreateStoreService } from '../services/create-store.service';
 import { DeleteStoreService } from '../services/delete-store.service';
@@ -101,7 +101,7 @@ describe('StoreResolver', () => {
   });
 
   it('should call service to get store by id', async () => {
-    const store = plainToClass(StoreEntity, storesFixture[0]);
+    const store = plainToInstance(StoreEntity, storesFixture[0]);
     const getByIdSpy = jest.spyOn(getStoreService, 'findById').mockResolvedValue(store);
 
     await storeResolver.getStoreById(1);

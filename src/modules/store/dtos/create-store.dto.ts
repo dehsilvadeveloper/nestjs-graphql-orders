@@ -1,18 +1,18 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IsNotEmpty, IsString, MinLength, MaxLength, IsUrl } from 'class-validator';
 
-@InputType()
+@InputType({ description: 'Fields to create a new store.' })
 export class CreateStoreDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(5)
   @MaxLength(100)
-  @Field()
+  @Field({ description: 'Name of the store.' })
   name: string;
 
   @IsNotEmpty()
   @IsUrl()
   @MaxLength(80)
-  @Field()
+  @Field({ description: 'Url of the e-commerce of the store.' })
   ecommerceUrl?: string;
 }

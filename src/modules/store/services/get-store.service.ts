@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@database/prisma/prisma.service';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { StoreEntity } from '../entities/store.entity';
 
 @Injectable()
@@ -14,6 +14,6 @@ export class GetStoreService {
       },
     });
 
-    return plainToClass(StoreEntity, store);
+    return plainToInstance(StoreEntity, store);
   }
 }

@@ -6,7 +6,7 @@ import { OrderStatusEntity } from './order-status.entity';
 import { PaymentTypeEntity } from './payment-type.entity';
 import { StoreEntity } from '@modules/store/entities/store.entity';
 
-@ObjectType()
+@ObjectType({ description: 'Entity for table order.' })
 export class OrderEntity extends BaseEntity {
   @Field(() => Float, { description: 'Total value of order.' })
   total: number;

@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { OrderResolver } from './order.resolver';
 import { CancelOrderService } from '../services/cancel-order.service';
 import { CreateOrderService } from '../services/create-order.service';
@@ -149,7 +149,7 @@ describe('OrderResolver', () => {
   });
 
   it('should call service to get order by id', async () => {
-    const order = plainToClass(OrderEntity, ordersFixture[0]);
+    const order = plainToInstance(OrderEntity, ordersFixture[0]);
     const getByIdSpy = jest.spyOn(getOrderService, 'findById').mockResolvedValue(order);
 
     await orderResolver.getOrderById(1);

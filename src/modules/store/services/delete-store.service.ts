@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { StoreEntity } from '../entities/store.entity';
 import { StoreNotFoundError } from '../errors/store-not-found.error';
@@ -36,7 +36,7 @@ export class DeleteStoreService {
         },
       });
 
-      return plainToClass(StoreEntity, deletedStore);
+      return plainToInstance(StoreEntity, deletedStore);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&

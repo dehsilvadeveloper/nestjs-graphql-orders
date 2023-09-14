@@ -99,21 +99,61 @@ type SimpleResponse {
 type Query {
   health: HealthResponse!
   sayHello: String!
+
+  """
+  Get a list of orders. The list will be paginated and can be sorted and filtered.
+  """
+  getOrders(
+    filter: OrderFilterDto
+
+    """Number of active page"""
+    page: Int
+
+    """Size of items of pagination"""
+    pageSize: Int
+  ): [OrderEntity!]!
+
+  """Get a specific order, searching by id."""
   getOrderById(id: Float!): OrderEntity
   getStoreById(id: Float!): StoreEntity
 }
 
+"""Filterable columns for orders list."""
+input OrderFilterDto {
+  """Origin of the order."""
+  origin: String
+
+  """Payment type of the order."""
+  paymentTypeId: Float
+
+  """Status of the order."""
+  orderStatusId: Float
+
+  """Store from where the order came."""
+  storeId: Float
+}
+
 type Mutation {
+  """Create a new order."""
   createOrder(data: CreateOrderDto!): OrderEntity!
+
+  """Update a order."""
   updateOrder(id: Float!, data: UpdateOrderDto!): OrderEntity!
+
+  """Cancel a order."""
   cancelOrder(id: Float!): OrderEntity!
+
+  """Refund a order."""
   refundOrder(id: Float!): OrderEntity!
+
+  """Delete a order."""
   deleteOrder(id: Float!): SimpleResponse!
   createStore(data: CreateStoreDto!): StoreEntity!
   updateStore(id: Float!, data: UpdateStoreDto!): StoreEntity!
   deleteStore(id: Float!): SimpleResponse!
 }
 
+"""Fields to create a new order."""
 input CreateOrderDto {
   total: Float!
   freightValue: Float!
@@ -123,6 +163,7 @@ input CreateOrderDto {
   storeId: Float!
 }
 
+"""Fields to update a order."""
 input UpdateOrderDto {
   total: Float
   freightValue: Float

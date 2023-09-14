@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { OrderStatusEnum } from '@common/enums/order-status.enum';
 import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { OrderEntity } from '../entities/order.entity';
@@ -47,7 +47,7 @@ export class DeleteOrderService {
         },
       });
 
-      return plainToClass(OrderEntity, deletedOrder);
+      return plainToInstance(OrderEntity, deletedOrder);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&

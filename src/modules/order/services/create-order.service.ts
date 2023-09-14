@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@database/prisma/prisma.service';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { OrderStatusEnum } from '@common/enums/order-status.enum';
 import { OrderEntity } from '../entities/order.entity';
@@ -25,7 +25,7 @@ export class CreateOrderService {
         },
       });
 
-      return plainToClass(OrderEntity, orderCreated);
+      return plainToInstance(OrderEntity, orderCreated);
     } catch (error) {
       throw error;
     }

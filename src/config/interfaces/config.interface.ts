@@ -1,6 +1,7 @@
 export interface ConfigProps {
   app: AppConfigProps;
   cors: CorsConfigProps;
+  pagination: PaginationConfigProps;
   database: DatabaseConfigProps;
   graphql: GraphqlConfigProps;
 }
@@ -26,6 +27,10 @@ export interface AppConfigProps {
 
 export interface CorsConfigProps {
   enabled: boolean;
+}
+
+export interface PaginationConfigProps {
+  pageSize: number;
 }
 
 export interface DatabaseConfigProps {

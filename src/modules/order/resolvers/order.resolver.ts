@@ -8,6 +8,8 @@ import { GetOrderService } from '../services/get-order.service';
 import { GetOrdersService } from '../services/get-orders.service';
 import { RefundOrderService } from '../services/refund-order.service';
 import { UpdateOrderService } from '../services/update-order.service';
+import { PaginationOptionsDto } from '@common/dtos/pagination-options.dto';
+import { OrderFilterDto } from '../dtos/order-filter.dto';
 import { CreateOrderDto } from '../dtos/create-order.dto';
 import { UpdateOrderDto } from '../dtos/update-order.dto';
 import { OrderCannotBeCanceledErrorInterceptor } from '../interceptors/order-cannot-be-canceled-error.interceptor';
@@ -48,34 +50,49 @@ export class OrderResolver {
     return 'Hello World!';
   }
 
-  @Mutation(() => OrderEntity, { name: 'createOrder' })
+  @Mutation(() => OrderEntity, { name: 'createOrder', description: 'Create a new order.' })
   async createOrder(@Args('data') data: CreateOrderDto): Promise<OrderEntity> {
     return await this.createOrderService.create(data);
   }
 
-  @Mutation(() => OrderEntity, { name: 'updateOrder' })
+  @Mutation(() => OrderEntity, { name: 'updateOrder', description: 'Update a order.' })
   async updateOrder(@Args('id') id: number, @Args('data') data: UpdateOrderDto): Promise<OrderEntity> {
     return await this.updateOrderService.update(id, data);
   }
 
-  @Mutation(() => OrderEntity, { name: 'cancelOrder' })
+  @Mutation(() => OrderEntity, { name: 'cancelOrder', description: 'Cancel a order.' })
   async cancelOrder(@Args('id') id: number): Promise<OrderEntity> {
     return await this.cancelOrderService.cancel(id);
   }
 
-  @Mutation(() => OrderEntity, { name: 'refundOrder' })
+  @Mutation(() => OrderEntity, { name: 'refundOrder', description: 'Refund a order.' })
   async refundOrder(@Args('id') id: number): Promise<OrderEntity> {
     return await this.refundOrderService.refund(id);
   }
 
-  @Mutation(() => SimpleResponse, { name: 'deleteOrder' })
+  @Mutation(() => SimpleResponse, { name: 'deleteOrder', description: 'Delete a order.' })
   async deleteOrder(@Args('id') id: number): Promise<SimpleResponse> {
     await this.deleteOrderService.delete(id);
 
     return { message: 'The order was deleted.' };
   }
 
-  @Query(() => OrderEntity, { name: 'getOrderById', nullable: true })
+  @Query(() => [OrderEntity], {
+    name: 'getOrders',
+    description: 'Get a list of orders. The list will be paginated and can be sorted and filtered.',
+  })
+  async getOrders(
+    @Args('filter', { nullable: true }) filters: OrderFilterDto,
+    @Args() paginationOptions: PaginationOptionsDto,
+  ) {
+    return await this.getOrdersService.findAll(filters, paginationOptions);
+  }
+
+  @Query(() => OrderEntity, {
+    name: 'getOrderById',
+    description: 'Get a specific order, searching by id.',
+    nullable: true,
+  })
   async getOrderById(@Args('id') id: number): Promise<OrderEntity> {
     const order = await this.getOrderService.findById(id);
 

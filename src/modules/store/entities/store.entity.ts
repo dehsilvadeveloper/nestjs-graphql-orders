@@ -3,7 +3,7 @@ import { Transform } from 'class-transformer';
 import { format } from 'date-fns';
 import { BaseEntity } from '@common/entities/base.entity';
 
-@ObjectType()
+@ObjectType({ description: 'Entity for table store.' })
 export class StoreEntity extends BaseEntity {
   @Field(() => String, { description: 'Name of the store.' })
   name: string;

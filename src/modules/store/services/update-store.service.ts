@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '@database/prisma/prisma.service';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { PrismaErrorEnum } from '@common/enums/prisma-error.enum';
 import { UpdateStoreDto } from '../dtos/update-store.dto';
 import { StoreEntity } from '../entities/store.entity';
@@ -40,7 +40,7 @@ export class UpdateStoreService {
         data: updateStoreDto,
       });
 
-      return plainToClass(StoreEntity, updatedStore);
+      return plainToInstance(StoreEntity, updatedStore);
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
